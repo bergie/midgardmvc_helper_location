@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Schema xmlns="http://www.midgard-project.org/repligard/1.4">
+
+    <!-- Country -->
+    <type name="org_routamc_positioning_country" table="org_routamc_positioning_country">
+        <property name="id" type="integer" primaryfield="id"/>
+        <!-- Country in ISO 3166-1 alpha-2 two letter format -->
+        <property name="code" type="string"/>
+        <!-- Country in ISO 3166-1 alpha-3 three letter format -->
+        <property name="code3" type="string"/>        
+        <property name="codenumeric" type="string"/>          
+        <!-- Country in FIPS two letter format -->
+        <property name="fips" type="string"/>        
+        
+        <property name="name" type="string"/>
+        <!-- TODO: Alternate names should probably be a MultiLang table -->
+        <property name="alternatenames" type="string"/>
+
+        <!-- Metadata -->        
+        <property name="population" type="integer"/>
+        <!-- Area is in square km -->
+        <property name="area" type="float"/>
+        <property name="currency" type="string"/>
+        <property name="continent" type="string"/>
+        <property name="capital" type="integer" link="org_routamc_positioning_city:id" reverse="no"/>
+        
+        <!-- Coordinates in decimal format -->
+        <property name="bboxwest" type="float"/>
+        <property name="bboxnorth" type="float"/>
+        <property name="bboxeast" type="float"/>
+        <property name="bboxsouth" type="float"/>
+    </type>
+
+    <!-- City is used for mapping log entries to "real-world places" -->
+    <type name="org_routamc_positioning_city" table="org_routamc_positioning_city" parentfield="country">
+        <property name="id" type="integer" primaryfield="id"/>
+        <property name="city" type="string"/>
+        <!-- Country in ISO 3166-1 alpha-2 two letter format -->
+        <property name="country" type="string" link="org_routamc_positioning_country:code" parentfield="country" reverse="no" />
+        <property name="region" type="string"/>
+        <!-- TODO: Alternate names should probably be a MultiLang table -->
+        <property name="alternatenames" type="string"/>
+        <property name="population" type="integer"/>
+        <!-- Coordinates in decimal format -->
+        <property name="latitude" type="float"/>
+        <property name="longitude" type="float"/>
+        <property name="altitude" type="integer"/>
+    </type>
+
+    <!-- Airports are primarily used for getting METAR weather for users -->
+    <type name="org_routamc_positioning_aerodrome" table="org_routamc_positioning_aerodrome" parent="org_routamc_positioning_city" parentfield="city">
+        <property name="id" type="integer" primaryfield="id"/>
+        <property name="icao" type="string"/>
+        <property name="iata" type="string"/>
+        <property name="wmo" type="string"/>        
+        <property name="name" type="string"/>
+        <property name="city" link="org_routamc_positioning_city:id" reverse="no" type="integer" parentfield="city"/>
+        <property name="country" link="org_routamc_positioning_country:code" reverse="no" type="string"/>
+        <!-- Coordinates in decimal format -->
+        <property name="latitude" type="float"/>
+        <property name="longitude" type="float"/>
+
+        <!-- Runway altitude in meters -->
+        <property name="altitude" type="float"/>
+    </type>
+
+    <!-- Log entries are user's position entries -->
+    <type name="org_routamc_positioning_log" table="org_routamc_positioning_log" parent="midgard_person" parentfield="person">
+        <property name="id" type="integer" primaryfield="id"/>
+        <property name="person" link="midgard_person:id" reverse="no" type="integer" parentfield="person"/>
+        <property name="date" type="integer"/>
+
+        <!--
+        Source is the name of the position source module log entry comes from. These
+        correspond to org_routamc_positioning_importer_X classes
+            gpx: GPS track log entry imported in GPX format
+            plazes: Plazes information
+            manual: Manually entered position
+            objectlocation: Location acquired through an object's location
+        -->
+        <property name="importer" type="string"/>
+
+        <!--
+        Accuracy options (numbers used here. In quotes we have Fire Eagle equivalent terms):
+            10, "exact":     Position is accurate down to a few meters (for example from GPS)
+            20, "postal":    Position is accurate down to few hundred meters (for example from a Google Maps click)
+            30, "city":      Position is approximate based on a city name
+            50, "state":     Position is somewhere in a state
+            60, "country":   Position is somewhere in a country
+            70, "continent": Position is somewhere in a continent
+            80, "planet":    Position is somewhere on a planet
+        -->
+        <property name="accuracy" type="integer"/>
+
+        <!-- Coordinates in decimal format -->
+        <property name="latitude" type="float"/>
+        <property name="longitude" type="float"/>
+
+        <!-- Altitude in meters -->
+        <property name="altitude" type="integer"/>
+
+        <!-- Bearing in degrees -->
+        <property name="bearing" type="integer"/>
+    </type>
+
+    <!-- Locations are used for connecting any Midgard object into real-world positions -->
+    <type name="org_routamc_positioning_location" table="org_routamc_positioning_location" parentfield="log">
+        <property name="id" type="integer" primaryfield="id"/>
+
+        <!-- Parent object GUID -->
+        <property name="parent" type="string"/>
+        <!-- Parent object class -->
+        <property name="parentclass" type="string"/>
+        <!-- Parent component -->
+        <property name="parentcomponent" type="string"/>
+
+        <!-- Log entry this position information is based on if type is set to "10" -->
+        <property name="log" link="org_routamc_positioning_log:id" parentfield="log" reverse="no" type="integer"/>
+        <!-- Date maps to XEP-0080 timestamp -->
+        <property name="date" type="integer"/>
+
+        <!--
+        Relation options:
+            10: Entry is made at location
+            20: Entry is about location
+            30: Entry is located at location
+        -->
+        <property name="relation" type="integer"/>
+
+        <!-- Coordinates in decimal format, mapping to XEP-0080 lat and lon -->
+        <property name="latitude" type="float"/>
+        <property name="longitude" type="float"/>
+
+        <!-- Altitude in meters, mapping to XEP-0080 alt -->
+        <property name="altitude" type="float"/>
+        
+        <!-- XEP-0080 compatible civic location elements from http://www.xmpp.org/extensions/xep-0080.html#format -->
+        <property name="area" type="string"/>
+        <property name="building" type="string"/>
+        <property name="country" link="org_routamc_positioning_country:code" reverse="no" type="string"/>
+        <property name="description" type="string"/>
+        <property name="floor" type="string"/>
+        <property name="city" link="org_routamc_positioning_city:id" reverse="no" type="integer"/>
+        <property name="postalcode" type="string"/>
+        <property name="region" type="string"/>
+        <property name="room" type="string"/>
+        <property name="street" type="string"/>
+        <property name="text" type="string"/>
+        <property name="uri" type="string"/>
+    </type>
+</Schema>
