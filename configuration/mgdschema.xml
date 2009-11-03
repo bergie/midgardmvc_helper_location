@@ -64,7 +64,7 @@
         </property>
         <!-- TODO: It would be safer to link via ID or GUID here -->
         <property name="country" type="unsigned integer" link="org_routamc_positioning_country:id" parentfield="country">
-            <description>Country the city is in, in ISO 3166-1 alpha-2 two letter format</description>
+            <description>Country the city is in</description>
         </property>
         <property name="region" type="string" index="yes">
             <description>An administrative region of the nation, such as a state or province</description>
@@ -107,8 +107,8 @@
         <property name="city" link="org_routamc_positioning_city:id" type="unsigned integer" parentfield="city">
             <description>Nearest city to the airport</description>
         </property>
-        <property name="country" dbtype="varchar(2)" link="org_routamc_positioning_country:code" type="string">
-            <description>Country the airport is in, in ISO 3166-1 alpha-2 two letter format</description>
+        <property name="country" link="org_routamc_positioning_country:id" type="unsigned integer">
+            <description>Country the airport is in</description>
         </property>
         <property name="latitude" type="float" index="yes">
             <description>Coordinate in WGS 84 decimal format</description>
@@ -207,8 +207,8 @@
         <property name="building" type="string">
             <description>A specific building on a street or in an area</description>
         </property>
-        <property name="country" dbtype="varchar(2)" link="org_routamc_positioning_country:code" type="string">
-            <description>Country the entry is in, in ISO 3166-1 alpha-2 two letter format</description>
+        <property name="country" link="org_routamc_positioning_country:id" type="unsigned integer">
+            <description>Country the entry is in</description>
         </property>
         <property name="description" type="string">
             <description>A natural-language name for or description of the location</description>
