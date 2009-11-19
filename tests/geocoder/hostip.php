@@ -62,8 +62,8 @@ class org_routamc_positioning_tests_geocoder_hostip extends midcom_tests_testcas
         $this->assertTrue(is_a($spot, 'org_routamc_positioning_spot'));
         
         // Check that the type is near Helsinki
-        $this->assertEquals((int) $spot->latitude, 25);
-        $this->assertEquals((int) $spot->longitude, 60);
+        $this->assertEquals((int) $spot->latitude, 60);
+        $this->assertEquals((int) $spot->longitude, 25);
         
         // Check that we got city and country
         $this->assertEquals($spot->country, 'FI');
