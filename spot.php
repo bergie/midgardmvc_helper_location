@@ -52,6 +52,11 @@ class org_routamc_positioning_spot
         }
         else
         {
+            if (   !is_float($arg1)
+                || !is_float($arg2))
+            {
+                throw new InvalidArgumentException("A pair of WGS-84 coordinates expected");
+            }
             $this->latitude = $arg1;
             $this->longitude = $arg2;
         }
