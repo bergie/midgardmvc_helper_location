@@ -57,8 +57,21 @@ class org_routamc_positioning_spot
             {
                 throw new InvalidArgumentException("A pair of WGS-84 coordinates expected");
             }
+            
             $this->latitude = $arg1;
             $this->longitude = $arg2;
+        }
+        
+        if (   $this->latitude > 90
+            || $this->latitude < -90)
+        {
+            throw new InvalidArgumentException("WGS-84 latitude must be between 90 and -90 degrees");
+        }
+
+        if (   $this->longitude > 180
+            || $this->longitude < -180)
+        {
+            throw new InvalidArgumentException("WGS-84 longitude must be between 180 and -180 degrees");
         }
     }
 }

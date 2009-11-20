@@ -53,6 +53,26 @@ class org_routamc_positioning_tests_spot extends midcom_tests_testcase
         $spot = new org_routamc_positioning_spot(1, 2);
     }
 
+    /**
+     * Try instantiating spot from implausible coordinates, should throw an exception
+     * 
+     * @expectedException InvalidArgumentException
+     */
+    public function test_instantiate_from_implausible_latitude()
+    {
+        $spot = new org_routamc_positioning_spot(95.2, 17.366667);
+    }
+
+    /**
+     * Try instantiating spot from implausible coordinates, should throw an exception
+     * 
+     * @expectedException InvalidArgumentException
+     */
+    public function test_instantiate_from_implausible_longitude()
+    {
+        $spot = new org_routamc_positioning_spot(-22.083332, -185.6);
+    }
+
     public function test_instantiate_from_location()
     {
         // Midgard airport (FYMG)
