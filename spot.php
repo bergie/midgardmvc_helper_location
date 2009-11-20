@@ -8,14 +8,35 @@
  */
 
 /**
- * Spot class for handling a geographical location
+ * Spot class for handling non-persistent geographical location.
+ *
+ * For persistent locations use the org_routamc_positioning_location class that is connected 
+ * to some object.
  *
  * @package org_routamc_positioning
  */
 class org_routamc_positioning_spot
 {
-    public $latitude;
-    public $longitude;
+    /**
+     * WGS-84 latitude of the spot
+     *
+     * @var float
+     */
+    public $latitude = 0.0;
+
+    /**
+     * WGS-84 latitude of the spot
+     *
+     * @var float
+     */
+    public $longitude = 0.0;
+    
+    /**
+     * Timestamp of the spot
+     *
+     * @var midgard_datetime
+     */
+    public $when = null;
     
     public function __construct($arg1, $arg2 = null)
     {
