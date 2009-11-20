@@ -42,8 +42,13 @@ class org_routamc_positioning_spot
     {
         if (is_object($arg1))
         {
+            if (!is_a($arg1, 'midgard_object'))
+            {
+                throw new InvalidArgumentException("You can instantiate spots only from MgdSchema objects");
+            }
             $this->latitude = $arg1->latitude;
             $this->longitude = $arg1->longitude;
+            $this->when = $arg1->metadata->created;
         }
         else
         {
