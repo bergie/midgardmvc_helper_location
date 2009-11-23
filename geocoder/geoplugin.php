@@ -40,10 +40,10 @@ class org_routamc_positioning_geocoder_geoplugin implements org_routamc_position
             throw new InvalidArgumentException("Invalid IP address provided");
         }
         
-        $json = file_get_contents("http://www.geoplugin.net/json.gp?ip={$location['ip']}");
+        $json = @file_get_contents("http://www.geoplugin.net/json.gp?ip={$location['ip']}");
         if (!$json)
         {
-            throw new RuntimeException("HostIP did not return data");
+            throw new RuntimeException("GeoPlugin did not return data");
         }
         
         // Remove the geoPlugin() callback

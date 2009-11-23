@@ -32,7 +32,7 @@ class org_routamc_positioning_geocoder_hostip implements org_routamc_positioning
             throw new InvalidArgumentException("Invalid IP address provided");
         }
         
-        $xml = file_get_contents("http://api.hostip.info/?ip={$location['ip']}");
+        $xml = @file_get_contents("http://api.hostip.info/?ip={$location['ip']}");
         if (!$xml)
         {
             throw new RuntimeException("HostIP did not return data");
