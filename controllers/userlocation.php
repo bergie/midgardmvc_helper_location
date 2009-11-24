@@ -73,7 +73,7 @@ class org_routamc_positioning_controllers_userlocation
             throw new midcom_exception_httperror("Failed to store location");
         }
         
-        $midcom->log("postlocation", "Location stored" . $midcom->dispatcher->get_midgard_connection()->get_error_string(), 'debug');
+        midcom_core_midcom::get_instance()->log("postlocation", "Location stored", 'debug');
         
         $this->get_location($args);
     }
