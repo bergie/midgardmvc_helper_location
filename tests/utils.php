@@ -75,5 +75,20 @@ class org_routamc_positioning_tests_utils extends midcom_tests_testcase
         $this->assertEquals($latitude['deg'], -22);
         $this->assertEquals($longitude['deg'], 17);
     }
+    
+    public function test_bounding_box_for_radius()
+    {
+        // Helsinki-Malmi airport (EFHF)
+        $efhf = new org_routamc_positioning_spot(60.254558, 25.042828);
+        
+        // Get 20km bounding box
+        $bbox = org_routamc_positioning_utils::get_bounding_box_for_radius($efhf, 20);
+        
+        $this->assertTrue(is_array($bbox));
+        $this->assertEquals(count($bbox), 2);
+        
+        //$distance1 = org_routamc_positioning_utils::get_distance($bbox[0], $efhf);
+        //$this->assertEquals($distance1, 20);
+    }
 }
 ?>
