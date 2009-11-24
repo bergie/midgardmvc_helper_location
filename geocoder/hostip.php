@@ -50,15 +50,18 @@ class org_routamc_positioning_geocoder_hostip implements org_routamc_positioning
         $coordinates = explode(',', (string) $simplexml->gml_featureMember->Hostip->ipLocation->gml_pointProperty->gml_Point->gml_coordinates);
         
         $spot = new org_routamc_positioning_spot((float) $coordinates[1], (float) $coordinates[0]);
-        
-        if (isset($simplexml->gml_featureMember->Hostip->gml_name))
-        {
-            $spot->city = (string) $simplexml->gml_featureMember->Hostip->gml_name;
-        }
+        $spot->accuracy = 80;
 
         if (isset($simplexml->gml_featureMember->Hostip->countryAbbrev))
         {
             $spot->country = (string) $simplexml->gml_featureMember->Hostip->countryAbbrev;
+            $spot->accuracy = 60;
+        }
+        
+        if (isset($simplexml->gml_featureMember->Hostip->gml_name))
+        {
+            $spot->city = (string) $simplexml->gml_featureMember->Hostip->gml_name;
+            $spot->accuracy = 30;
         }
        
         return $spot;

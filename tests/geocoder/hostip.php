@@ -68,6 +68,9 @@ class org_routamc_positioning_tests_geocoder_hostip extends midcom_tests_testcas
         // Check that we got city and country
         $this->assertEquals($spot->country, 'FI');
         $this->assertEquals($spot->city, 'Helsinki');
+
+        // Check that accuracy is correctly set to "city"
+        $this->assertEquals($spot->accuracy, 30);
     }
 }
 ?>

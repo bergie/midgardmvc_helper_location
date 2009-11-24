@@ -50,15 +50,18 @@ class org_routamc_positioning_geocoder_geoplugin implements org_routamc_position
         $json = substr($json, 10, -1);
         $location = json_decode($json);
         $spot = new org_routamc_positioning_spot((float) $location->geoplugin_latitude, (float) $location->geoplugin_longitude);
-
-        if (isset($location->geoplugin_city))
-        {
-            $spot->city = $location->geoplugin_city;
-        }
+        $spot->accuracy = 80;
 
         if (isset($location->geoplugin_countryCode))
         {
             $spot->country = $location->geoplugin_countryCode;
+            $spot->accuracy = 60;
+        }
+
+        if (isset($location->geoplugin_city))
+        {
+            $spot->city = $location->geoplugin_city;
+            $spot->accuracy = 30;
         }
 
         return $spot;

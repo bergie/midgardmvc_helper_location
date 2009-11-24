@@ -30,7 +30,20 @@ class org_routamc_positioning_spot
      * @var float
      */
     public $longitude = 0.0;
-    
+
+    /**
+     * Approximate accuracy of the spot:
+     *
+     * - 10, `exact`:     Spot is accurate down to a few meters (for example from GPS)
+     * - 20, `postal`:    Spot is accurate down to few hundred meters (for example from a Google Maps click)
+     * - 30, `city`:      Spot is approximate based on a city name
+     * - 50, `state`:     Spot is somewhere in a state
+     * - 60, `country`:   Spot is somewhere in a country
+     * - 70, `continent`: Spot is somewhere in a continent
+     * - 80, `planet`:    Spot is somewhere on a planet
+     */
+    public $accuracy = 30;
+
     /**
      * Timestamp of the spot
      *

@@ -25,12 +25,39 @@ class org_routamc_positioning_controllers_userlocation
     {
         $spot = new org_routamc_positioning_spot($_POST['latitude'], $_POST['longitude']);
         
+        if (isset($_POST['accuracy']))
+        {
+            // W3C accuracy is in meters, convert to our approximates
+            if ($_POST['accuracy'] < 30)
+            {
+                // Exact enough
+                $spot->accuracy = 10;
+            }
+            elseif ($_POST['accuracy'] < 400)
+            {
+                // Postal code area
+                $spot->accuracy = 20;
+            }
+            elseif ($_POST['accuracy'] < 5000)
+            {
+                // City
+                $spot->accuracy = 30;
+            }
+            else
+            {
+                // Fall back to "state level"
+                $spot->accuracy = 50;
+            }  
+        }
+        
+        $spot->source = 'browser';
+        
         if (!org_routamc_positioning_user::set_location($spot))
         {
             throw new midcom_exception_httperror("Failed to store location");
         }
         
-        $midcom->log("postlocation", "Stored {$log->guid}" . $midcom->dispatcher->get_midgard_connection()->get_error_string(), 'warn');
+        $midcom->log("postlocation", "Location stored" . $midcom->dispatcher->get_midgard_connection()->get_error_string(), 'debug');
         
         $this->get_location($args);
     }
