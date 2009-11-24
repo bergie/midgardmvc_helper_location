@@ -28,7 +28,7 @@ class org_routamc_positioning_user
         return $session->set('location', $location);
     }
     
-    static public function set_location_for_person(org_routamc_positioning_spot $location, midgard_person $person)
+    static public function set_location_for_person(org_routamc_positioning_spot $spot, midgard_person $person)
     {
         // TODO: Check that we don't have a location matching this already from same day
         $log = new org_routamc_positioning_log();
