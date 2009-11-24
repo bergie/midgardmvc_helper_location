@@ -61,6 +61,12 @@ class org_routamc_positioning_spot
             }
             $this->latitude = $arg1->latitude;
             $this->longitude = $arg1->longitude;
+            
+            if (isset($arg1->accuracy))
+            {
+                $this->accuracy = $arg1->accuracy;
+            }
+            
             $this->when = $arg1->metadata->created;
         }
         else

@@ -14,13 +14,13 @@
  */
 class org_routamc_positioning_user
 {
-    static public function set_location(org_routamc_positioning_spot $location, midgard_datetime $when = null)
+    static public function set_location(org_routamc_positioning_spot $location)
     {
         $midcom = midcom_core_midcom::get_instance();
         if ($midcom->authentication->is_user())
         {
             // Set to user's location log
-            return org_routamc_positioning_user::set_location_for_person($location, $midcom->authentication->get_person(), $when);
+            return org_routamc_positioning_user::set_location_for_person($location, $midcom->authentication->get_person());
         }
 
         // Set to session
@@ -28,23 +28,28 @@ class org_routamc_positioning_user
         return $session->set('location', $location);
     }
     
-    static public function set_location_for_person(org_routamc_positioning_spot $location, midgard_person $person, midgard_datetime $when = null)
+    static public function set_location_for_person(org_routamc_positioning_spot $location, midgard_person $person)
     {
         // TODO: Check that we don't have a location matching this already from same day
         $log = new org_routamc_positioning_log();
         $log->person = $person->id;
-        
-        if (!is_null($when))
-        {
-            $log->metadata->published = $when;
-        }
-            
-        // TODO: Get from spot
-        $log->importer = 'userlocation';
-        $log->accuracy = 20;
-            
+
         $log->latitude = $spot->latitude;
         $log->longitude = $spot->longitude;
+        if (isset($spot->source))
+        {
+            $log->importer = $spot->source;
+        }
+        if ($spot->accuracy)
+        {
+            $log->accuracy = $spot->accuracy;
+        }
+
+        if (!is_null($spot->when))
+        {
+            $log->metadata->published = $spot->when;
+        }
+
         return $log->create();
     }
 
@@ -81,7 +86,7 @@ class org_routamc_positioning_user
         $logs = $qb->execute();
         foreach ($logs as $log)
         {
-            return org_routamc_positioning_spot($log->latitude, $log->longitude);
+            return new org_routamc_positioning_spot($log);
         }
         
         return null;
