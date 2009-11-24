@@ -162,6 +162,9 @@
         <property name="bearing" type="integer">
             <description>Bearing in degrees</description>
         </property>
+        <property name="text" type="string">
+            <description>A catch-all element that captures any other information about the location</description>
+        </property>
     </type>
 
     <!-- Locations are used for connecting any Midgard object into real-world positions -->
