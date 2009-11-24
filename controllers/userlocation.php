@@ -26,7 +26,7 @@ class org_routamc_positioning_controllers_userlocation
         if (   isset($_POST['latitude'])
             && isset($_POST['longitude']))
         {
-            $spot = new org_routamc_positioning_spot($_POST['latitude'], $_POST['longitude']);
+            $spot = new org_routamc_positioning_spot((float) $_POST['latitude'], (float) $_POST['longitude']);
             if (isset($_POST['text']))
             {
                 $spot->text = $_POST['text'];
