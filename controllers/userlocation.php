@@ -23,7 +23,23 @@ class org_routamc_positioning_controllers_userlocation
      */
     public function post_location(array $args)
     {
-        $spot = new org_routamc_positioning_spot($_POST['latitude'], $_POST['longitude']);
+        if (   isset($_POST['latitude'])
+            && isset($_POST['longitude']))
+        {
+            $spot = new org_routamc_positioning_spot($_POST['latitude'], $_POST['longitude']);
+            if (isset($_POST['text']))
+            {
+                $spot->text = $_POST['text'];
+            }
+        }
+        elseif (isset($_POST['text']))
+        {
+            $spot = new org_routamc_positioning_spot($_POST['text']);
+        }
+        else
+        {
+            throw new InvalidArgumentException("Expected latitude and longitude, or text not found");
+        }
         
         if (isset($_POST['accuracy']))
         {

@@ -69,8 +69,14 @@ class org_routamc_positioning_tests_geocoder_geoplugin extends midcom_tests_test
         $this->assertEquals($spot->country, 'FI');
         $this->assertEquals($spot->city, 'Helsinki');
         
+        // Check that we got a textual location
+        $this->assertEquals($spot->text, 'Helsinki, Finland');
+        
         // Check that accuracy is correctly set to "city"
         $this->assertEquals($spot->accuracy, 30);
+        
+        // Check that source is correct
+        $this->assertEquals($spot->source, 'geoplugin');
     }
 }
 ?>

@@ -33,6 +33,14 @@ class org_routamc_positioning_tests_spot extends midcom_tests_testcase
         $spot = new org_routamc_positioning_spot(-22.083332);
     } 
 
+    public function test_instantiate_from_string()
+    {
+        $spot = new org_routamc_positioning_spot('low earth orbit');
+        
+        $this->assertEquals($spot->text, 'low earth orbit');
+        $this->assertEquals($spot->accuracy, 80);
+    }
+
     /**
      * Try instantiating spot from string, should throw an exception
      * 

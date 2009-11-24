@@ -45,15 +45,26 @@ class org_routamc_positioning_spot
     public $accuracy = 30;
 
     /**
+     * Textual description of the spot
+     */
+    public $text = '';
+
+    /**
      * Timestamp of the spot
      *
      * @var midgard_datetime
      */
     public $when = null;
-    
+
+    /**
+     * Where the spot comes from
+     */
+    public $source = '';
+
     public function __construct($arg1, $arg2 = null)
     {
-        if (is_object($arg1))
+        if (   is_object($arg1)
+            && is_null($arg2))
         {
             if (!is_a($arg1, 'midgard_object'))
             {
@@ -66,8 +77,14 @@ class org_routamc_positioning_spot
             {
                 $this->accuracy = $arg1->accuracy;
             }
-            
+       
             $this->when = $arg1->metadata->created;
+        }
+        elseif (   is_string($arg1)
+                && is_null($arg2))
+        {
+            $this->text = $arg1;
+            $this->accuracy = 80;
         }
         else
         {

@@ -36,7 +36,8 @@ class org_routamc_positioning_user
 
         $log->latitude = $spot->latitude;
         $log->longitude = $spot->longitude;
-        if (isset($spot->source))
+        $log->text = $spot->text;
+        if ($spot->source)
         {
             $log->importer = $spot->source;
         }
@@ -86,7 +87,10 @@ class org_routamc_positioning_user
         $logs = $qb->execute();
         foreach ($logs as $log)
         {
-            return new org_routamc_positioning_spot($log);
+            $spot = new org_routamc_positioning_spot($log);
+            $spot->source = $log->importer;
+            $spot->text = $log->text;
+            return $spot;
         }
         
         return null;
