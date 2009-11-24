@@ -29,7 +29,25 @@ class org_routamc_positioning_controllers_userlocation
             $spot = new org_routamc_positioning_spot((float) $_POST['latitude'], (float) $_POST['longitude']);
             if (isset($_POST['text']))
             {
+                // User has provided a textual location
                 $spot->text = $_POST['text'];
+            }
+            else
+            {
+                try
+                {
+                    // Get textual location by reverse geocoding
+                    $geocoder = new org_routamc_positioning_geocoder_geonames();
+                    $city = $geocoder->reverse_geocode($spot);
+                    if ($city->text)
+                    {
+                        $spot->text = $city->text;
+                    }
+                }
+                catch (Exception $e)
+                {
+                    // Ignore silently
+                }
             }
         }
         elseif (isset($_POST['text']))
