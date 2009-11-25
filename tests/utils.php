@@ -91,8 +91,10 @@ class org_routamc_positioning_tests_utils extends midcom_tests_testcase
         $this->assertEquals(org_routamc_positioning_utils::get_bearing($efhf, $bbox[0]), 'SW');
         $this->assertEquals(org_routamc_positioning_utils::get_bearing($efhf, $bbox[1]), 'NE');
         
-        //$distance1 = org_routamc_positioning_utils::get_distance($bbox[0], $efhf);
-        //$this->assertEquals($distance1, 20);
+        // Check that the distance to a corner is correct. 
+        // Note: using 2D trigonometry on 3D globe so numbers are not exact
+        $distance1 = org_routamc_positioning_utils::get_distance($bbox[0], $efhf);
+        $this->assertEquals(round($distance1), round(sqrt(pow(20, 2) + pow(20, 2))));
     }
 }
 ?>
