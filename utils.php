@@ -174,7 +174,7 @@ class org_routamc_positioning_utils
             else
             {
                 $bearing = org_routamc_positioning_utils::get_bearing($city_spot, $spot);
-                $city_string = sprintf($_MIDCOM->i18n->get_string('%skm %s of %s', 'org_routamc_positioning'), $city_distance, $bearing, "{$city->city}, {$city->country}");
+                $city_string = sprintf(midgardmvc_core::get_instance()->i18n->get_string('%skm %s of %s', 'org_routamc_positioning'), $city_distance, $bearing, "{$city->city}, {$city->country}");
             }
         }
         return $city_string;
@@ -228,7 +228,7 @@ class org_routamc_positioning_utils
             else
             {
                 $bearing = org_routamc_positioning_utils::get_bearing($city_spot, $spot);
-                $city_string .= sprintf($_MIDCOM->i18n->get_string('%skm %s of %s', 'org_routamc_positioning'), $city_distance, $bearing, $city_label);
+                $city_string .= sprintf(midgardmvc_core::get_instance()->i18n->get_string('%skm %s of %s', 'org_routamc_positioning'), $city_distance, $bearing, $city_label);
             }
 
             $city_string .= "</span>";

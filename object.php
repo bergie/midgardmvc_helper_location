@@ -195,7 +195,7 @@ class org_routamc_positioning_object
         if (!is_null($coordinates))
         {
             // ICBM tag as defined by http://geourl.org/
-            $_MIDCOM->add_meta_head
+            midgardmvc_core::get_instance()->add_meta_head
             (
                 array
                 (
