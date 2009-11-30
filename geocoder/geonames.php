@@ -67,7 +67,7 @@ class org_routamc_positioning_geocoder_geonames implements org_routamc_positioni
         if (   !isset($simplexml->code)
             || count($simplexml->code) == 0)
         {
-            throw new midcom_exception_notfound('City not found');
+            throw new midgardmvc_exception_notfound('City not found');
         }
         
         $entry = $simplexml->code[0];
@@ -131,7 +131,7 @@ class org_routamc_positioning_geocoder_geonames implements org_routamc_positioni
         if (   !isset($simplexml->geoname)
             || count($simplexml->geoname) == 0)
         {
-            throw new midcom_exception_notfound('City not found');
+            throw new midgardmvc_exception_notfound('City not found');
         }
             
         $entry = $simplexml->geoname[0];

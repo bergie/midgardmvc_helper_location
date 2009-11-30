@@ -16,7 +16,7 @@ class org_routamc_positioning_user
 {
     static public function set_location(org_routamc_positioning_spot $location)
     {
-        $midcom = midgardmvc_core_midcom::get_instance();
+        $midcom = midgardmvc_core::get_instance();
         if ($midcom->authentication->is_user())
         {
             // Set to user's location log
@@ -56,7 +56,7 @@ class org_routamc_positioning_user
 
     static public function get_location(midgard_datetime $when = null)
     {
-        $midcom = midgardmvc_core_midcom::get_instance();
+        $midcom = midgardmvc_core::get_instance();
         if ($midcom->authentication->is_user())
         {
             // Get from user's location log
