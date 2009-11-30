@@ -23,7 +23,8 @@ class org_routamc_positioning_geocoder_tiny implements org_routamc_positioning_g
     {
         $params = urlencode(implode(',', $location));
         $response = @file_get_contents('http://tinygeocoder.com/create-api.php?q=' . $params);
-        if (!$response)
+        if (   !$response
+            || substr($response, 0, 3) == '620')
         {
             throw new RuntimeException("Tiny Geocoder did not return data");
         }
@@ -54,7 +55,8 @@ class org_routamc_positioning_geocoder_tiny implements org_routamc_positioning_g
     public function reverse_geocode(org_routamc_positioning_spot $location)
     {
         $response = @file_get_contents("http://tinygeocoder.com/create-api.php?g={$location->latitude},{$location->longitude}");
-        if (!$response)
+        if (   !$response
+            || substr($response, 0, 3) == '620')
         {
             throw new RuntimeException("Tiny Geocoder did not return data");
         }
