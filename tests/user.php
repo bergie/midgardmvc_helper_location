@@ -11,7 +11,7 @@ require_once('tests/testcase.php');
 /**
  * @package org_routamc_positioning
  */
-class org_routamc_positioning_tests_user extends midcom_tests_testcase
+class org_routamc_positioning_tests_user extends midgardmvc_tests_testcase
 {
     public function test_set_anonymous()
     {

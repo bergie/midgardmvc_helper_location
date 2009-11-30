@@ -11,7 +11,7 @@ require_once('tests/testcase.php');
 /**
  * @package org_routamc_positioning
  */
-class org_routamc_positioning_tests_geocoder_hostip extends midcom_tests_testcase
+class org_routamc_positioning_tests_geocoder_hostip extends midgardmvc_tests_testcase
 {
     /**
      * Try geocoding without IP, should throw an exception
