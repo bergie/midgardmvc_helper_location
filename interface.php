@@ -11,7 +11,7 @@
  *
  * @package org_routamc_positioning
  */
-class org_routamc_positioning extends midcom_core_component_baseclass
+class org_routamc_positioning extends midgardmvc_core_component_baseclass
 {
     const RELATION_IN = 10;
     const RELATION_ABOUT = 20;

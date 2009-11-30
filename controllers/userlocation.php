@@ -13,7 +13,7 @@
  */
 class org_routamc_positioning_controllers_userlocation
 {
-    public function __construct(midcom_core_component_interface $instance)
+    public function __construct(midgardmvc_core_component_interface $instance)
     {
         $this->configuration = $instance->configuration;
     }
@@ -91,7 +91,7 @@ class org_routamc_positioning_controllers_userlocation
             throw new midcom_exception_httperror("Failed to store location");
         }
         
-        midcom_core_midcom::get_instance()->log("postlocation", "Location stored", 'debug');
+        midgardmvc_core_midcom::get_instance()->log("postlocation", "Location stored", 'debug');
         
         $this->get_location($args);
     }

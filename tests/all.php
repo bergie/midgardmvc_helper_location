@@ -22,7 +22,7 @@ class org_routamc_positioning_tests_all
     {
         $suite = new PHPUnit_Framework_TestSuite("MidCOM " . __CLASS__);
         
-        $tests = midcom_core_tests_helpers::get_tests(__FILE__, __CLASS__);
+        $tests = midgardmvc_core_tests_helpers::get_tests(__FILE__, __CLASS__);
         foreach ($tests as $test)
         {
             $suite->addTestSuite($test);

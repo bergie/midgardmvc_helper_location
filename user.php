@@ -16,7 +16,7 @@ class org_routamc_positioning_user
 {
     static public function set_location(org_routamc_positioning_spot $location)
     {
-        $midcom = midcom_core_midcom::get_instance();
+        $midcom = midgardmvc_core_midcom::get_instance();
         if ($midcom->authentication->is_user())
         {
             // Set to user's location log
@@ -24,7 +24,7 @@ class org_routamc_positioning_user
         }
 
         // Set to session
-        $session = new midcom_core_services_sessioning('org_routamc_positioning_user');
+        $session = new midgardmvc_core_services_sessioning('org_routamc_positioning_user');
         return $session->set('location', $location);
     }
     
@@ -56,7 +56,7 @@ class org_routamc_positioning_user
 
     static public function get_location(midgard_datetime $when = null)
     {
-        $midcom = midcom_core_midcom::get_instance();
+        $midcom = midgardmvc_core_midcom::get_instance();
         if ($midcom->authentication->is_user())
         {
             // Get from user's location log
@@ -64,7 +64,7 @@ class org_routamc_positioning_user
         }
 
         // Get from session
-        $session = new midcom_core_services_sessioning('org_routamc_positioning_user');
+        $session = new midgardmvc_core_services_sessioning('org_routamc_positioning_user');
         if (!$session->exists('location'))
         {
             return null;
