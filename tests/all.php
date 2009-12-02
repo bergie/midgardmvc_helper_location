@@ -1,6 +1,6 @@
 <?php
 /**
- * @package org_routamc_positioning
+ * @package midgardmvc_helper_location
  * @author The Midgard Project, http://www.midgard-project.org
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
@@ -9,9 +9,9 @@
 require_once(dirname(__FILE__) . '/../../tests/helpers.php');
 
 /**
- * @package org_routamc_positioning
+ * @package midgardmvc_helper_location
  */
-class org_routamc_positioning_tests_all
+class midgardmvc_helper_location_tests_all
 {
     public static function main()
     {

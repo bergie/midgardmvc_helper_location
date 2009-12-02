@@ -1,6 +1,6 @@
 <?php
 /**
- * @package org_routamc_positioning
+ * @package midgardmvc_helper_location
  * @author The Midgard Project, http://www.midgard-project.org
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
@@ -9,9 +9,9 @@
 require_once('tests/testcase.php');
 
 /**
- * @package org_routamc_positioning
+ * @package midgardmvc_helper_location
  */
-class org_routamc_positioning_tests_geocoder_hostip extends midgardmvc_tests_testcase
+class midgardmvc_helper_location_tests_geocoder_hostip extends midgardmvc_tests_testcase
 {
     /**
      * Try geocoding without IP, should throw an exception
@@ -20,7 +20,7 @@ class org_routamc_positioning_tests_geocoder_hostip extends midgardmvc_tests_tes
      */
     public function test_no_ip()
     {
-        $geocoder = new org_routamc_positioning_geocoder_hostip();
+        $geocoder = new midgardmvc_helper_location_geocoder_hostip();
         
         $data = array
         (
@@ -38,7 +38,7 @@ class org_routamc_positioning_tests_geocoder_hostip extends midgardmvc_tests_tes
      */
     public function test_invalid_ip()
     {
-        $geocoder = new org_routamc_positioning_geocoder_hostip();    
+        $geocoder = new midgardmvc_helper_location_geocoder_hostip();    
         $data = array
         (
             'ip' => '666.666.666.666',
@@ -51,7 +51,7 @@ class org_routamc_positioning_tests_geocoder_hostip extends midgardmvc_tests_tes
      */
     public function test_finnish_ip()
     {
-        $geocoder = new org_routamc_positioning_geocoder_hostip();     
+        $geocoder = new midgardmvc_helper_location_geocoder_hostip();     
         $data = array
         (
             'ip' => '83.150.122.98',
@@ -59,7 +59,7 @@ class org_routamc_positioning_tests_geocoder_hostip extends midgardmvc_tests_tes
         $spot = $geocoder->geocode($data);
         
         // Check that we got the correct type
-        $this->assertTrue(is_a($spot, 'org_routamc_positioning_spot'));
+        $this->assertTrue(is_a($spot, 'midgardmvc_helper_location_spot'));
         
         // Check that the type is near Helsinki
         $this->assertEquals((int) $spot->latitude, 60);

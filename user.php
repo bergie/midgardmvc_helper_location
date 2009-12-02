@@ -1,6 +1,6 @@
 <?php
 /**
- * @package org_routamc_positioning
+ * @package midgardmvc_helper_location
  * @author The Midgard Project, http://www.midgard-project.org
  * @version $Id$
  * @copyright The Midgard Project, http://www.midgard-project.org
@@ -10,28 +10,28 @@
 /**
  * User geolocation
  *
- * @package org_routamc_positioning
+ * @package midgardmvc_helper_location
  */
-class org_routamc_positioning_user
+class midgardmvc_helper_location_user
 {
-    static public function set_location(org_routamc_positioning_spot $location)
+    static public function set_location(midgardmvc_helper_location_spot $location)
     {
         $midcom = midgardmvc_core::get_instance();
         if ($midcom->authentication->is_user())
         {
             // Set to user's location log
-            return org_routamc_positioning_user::set_location_for_person($location, $midcom->authentication->get_person());
+            return midgardmvc_helper_location_user::set_location_for_person($location, $midcom->authentication->get_person());
         }
 
         // Set to session
-        $session = new midgardmvc_core_services_sessioning('org_routamc_positioning_user');
+        $session = new midgardmvc_core_services_sessioning('midgardmvc_helper_location_user');
         return $session->set('location', $location);
     }
     
-    static public function set_location_for_person(org_routamc_positioning_spot $spot, midgard_person $person)
+    static public function set_location_for_person(midgardmvc_helper_location_spot $spot, midgard_person $person)
     {
         // TODO: Check that we don't have a location matching this already from same day
-        $log = new org_routamc_positioning_log();
+        $log = new midgardmvc_helper_location_log();
         $log->person = $person->id;
 
         $log->latitude = $spot->latitude;
@@ -60,11 +60,11 @@ class org_routamc_positioning_user
         if ($midcom->authentication->is_user())
         {
             // Get from user's location log
-            return org_routamc_positioning_user::get_location_for_person($midcom->authentication->get_person(), $when);
+            return midgardmvc_helper_location_user::get_location_for_person($midcom->authentication->get_person(), $when);
         }
 
         // Get from session
-        $session = new midgardmvc_core_services_sessioning('org_routamc_positioning_user');
+        $session = new midgardmvc_core_services_sessioning('midgardmvc_helper_location_user');
         if (!$session->exists('location'))
         {
             return null;
@@ -74,7 +74,7 @@ class org_routamc_positioning_user
     
     static public function get_location_for_person(midgard_person $person, midgard_datetime $when = null)
     {
-        $qb = new midgard_query_builder('org_routamc_positioning_log');
+        $qb = new midgard_query_builder('midgardmvc_helper_location_log');
         $qb->add_constraint('person', '=', $person->id);
             
         if (!is_null($when))
@@ -87,7 +87,7 @@ class org_routamc_positioning_user
         $logs = $qb->execute();
         foreach ($logs as $log)
         {
-            $spot = new org_routamc_positioning_spot($log);
+            $spot = new midgardmvc_helper_location_spot($log);
             $spot->source = $log->importer;
             $spot->text = $log->text;
             return $spot;

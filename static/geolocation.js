@@ -1,9 +1,9 @@
 if (navigator.geolocation)
 {
-    navigator.geolocation.getCurrentPosition(org_routamc_positioning_update_location);
+    navigator.geolocation.getCurrentPosition(midgardmvc_helper_location_update_location);
 }
 
-function org_routamc_positioning_update_location(location)
+function midgardmvc_helper_location_update_location(location)
 {   
     jQuery.post
     (

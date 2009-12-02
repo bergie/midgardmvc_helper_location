@@ -1,6 +1,6 @@
 <?php
 /**
- * @package org_routamc_positioning
+ * @package midgardmvc_helper_location
  * @author The Midgard Project, http://www.midgard-project.org
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
@@ -9,15 +9,15 @@
 /**
  * Tiny Geocoder geocoding service
  *
- * @package org_routamc_positioning
+ * @package midgardmvc_helper_location
  */
-class org_routamc_positioning_geocoder_tiny implements org_routamc_positioning_geocoder
+class midgardmvc_helper_location_geocoder_tiny implements midgardmvc_helper_location_geocoder
 {
     /**
      * Geocode a city name using the Tiny Geocoder service
      *
      * @param array $location Parameters to geocode with
-     * @return org_routamc_positioning_spot containing geocoded information
+     * @return midgardmvc_helper_location_spot containing geocoded information
      */
     public function geocode(array $location)
     {
@@ -36,7 +36,7 @@ class org_routamc_positioning_geocoder_tiny implements org_routamc_positioning_g
         }
 
         // Prepare the spot        
-        $spot = new org_routamc_positioning_spot((float) $response_parts[0], (float) $response_parts[1]);
+        $spot = new midgardmvc_helper_location_spot((float) $response_parts[0], (float) $response_parts[1]);
         $spot->accuracy = 30;
         $spot->source = 'tinygeocoder';
 
@@ -49,10 +49,10 @@ class org_routamc_positioning_geocoder_tiny implements org_routamc_positioning_g
     /**
      * Reverse geocode using the GeoNames service.
      *
-     * @param org_routamc_positioning_spot $spot Spot to geocode
-     * @return org_routamc_positioning_spot containing geocoded information
+     * @param midgardmvc_helper_location_spot $spot Spot to geocode
+     * @return midgardmvc_helper_location_spot containing geocoded information
      */
-    public function reverse_geocode(org_routamc_positioning_spot $location)
+    public function reverse_geocode(midgardmvc_helper_location_spot $location)
     {
         $response = @file_get_contents("http://tinygeocoder.com/create-api.php?g={$location->latitude},{$location->longitude}");
         if (   !$response
@@ -62,7 +62,7 @@ class org_routamc_positioning_geocoder_tiny implements org_routamc_positioning_g
         }
 
         // Prepare the spot        
-        $spot = new org_routamc_positioning_spot($response);
+        $spot = new midgardmvc_helper_location_spot($response);
         $spot->latitude = $location->latitude;
         $spot->longitude = $location->longitude;
         $spot->accuracy = 30;

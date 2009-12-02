@@ -1,6 +1,6 @@
 <?php
 /**
- * @package org_routamc_positioning
+ * @package midgardmvc_helper_location
  * @author The Midgard Project, http://www.midgard-project.org
  * @version $Id$
  * @copyright The Midgard Project, http://www.midgard-project.org
@@ -10,16 +10,16 @@
 /**
  * Position handling utils using static methods
  *
- * @package org_routamc_positioning
+ * @package midgardmvc_helper_location
  */
-class org_routamc_positioning_utils
+class midgardmvc_helper_location_utils
 {
     /**
      * Get distance between to positions in kilometers
      *
      * Code from http://www.corecoding.com/getfile.php?file=25
      */
-    static function get_distance(org_routamc_positioning_spot $from, org_routamc_positioning_spot $to, $unit = 'K', $round = true)
+    static function get_distance(midgardmvc_helper_location_spot $from, midgardmvc_helper_location_spot $to, $unit = 'K', $round = true)
     {
         $theta = $from->longitude - $to->longitude;
         $dist = sin(deg2rad($from->latitude)) * sin(deg2rad($to->latitude)) + cos(deg2rad($from->latitude)) * cos(deg2rad($to->latitude)) * cos(deg2rad($theta));
@@ -48,7 +48,7 @@ class org_routamc_positioning_utils
      *
      * Code from http://www.corecoding.com/getfile.php?file=25
      */
-    static function get_bearing(org_routamc_positioning_spot $from, org_routamc_positioning_spot $to)
+    static function get_bearing(midgardmvc_helper_location_spot $from, midgardmvc_helper_location_spot $to)
     {
         if (round($from->longitude, 1) == round($to->longitude, 1))
         {
@@ -63,7 +63,7 @@ class org_routamc_positioning_utils
         }
         else
         {
-            $dist = org_routamc_positioning_utils::get_distance($from, $to, 'N');
+            $dist = midgardmvc_helper_location_utils::get_distance($from, $to, 'N');
             $arad = acos((sin(deg2rad($to->latitude)) - sin(deg2rad($from->latitude)) * cos(deg2rad($dist / 60))) / (sin(deg2rad($dist / 60)) * cos(deg2rad($from->latitude))));
             $bearing = $arad * 180 / pi();
             if (sin(deg2rad($to->longitude - $from->longitude)) < 0)
@@ -146,11 +146,11 @@ class org_routamc_positioning_utils
      *
      * @return string
      */
-    static function pretty_print_coordinates(org_routamc_positioning_spot $spot)
+    static function pretty_print_coordinates(midgardmvc_helper_location_spot $spot)
     {
         return sprintf("%s %s, %s %s",
-                 ($spot->latitude > 0) ? 'N': 'S',  org_routamc_positioning_utils::pretty_print_coordinate($spot->latitude),
-                 ($spot->longitude > 0) ? 'E': 'W', org_routamc_positioning_utils::pretty_print_coordinate($spot->longitude)
+                 ($spot->latitude > 0) ? 'N': 'S',  midgardmvc_helper_location_utils::pretty_print_coordinate($spot->latitude),
+                 ($spot->longitude > 0) ? 'E': 'W', midgardmvc_helper_location_utils::pretty_print_coordinate($spot->longitude)
         );
     }
 
@@ -159,22 +159,22 @@ class org_routamc_positioning_utils
      *
      * @return string
      */
-    static function pretty_print_location(org_routamc_positioning_spot $spot)
+    static function pretty_print_location(midgardmvc_helper_location_spot $spot)
     {
-        $closest = org_routamc_positioning_utils::get_closest('org_routamc_positioning_city', $spot, 1);
-        $city_string = org_routamc_positioning_utils::pretty_print_coordinates($spot);
+        $closest = midgardmvc_helper_location_utils::get_closest('midgardmvc_helper_location_city', $spot, 1);
+        $city_string = midgardmvc_helper_location_utils::pretty_print_coordinates($spot);
         foreach ($closest as $city)
         {
-            $city_spot = new org_routamc_positioning_spot($city);
-            $city_distance = round(org_routamc_positioning_utils::get_distance($spot, $city_spot));
+            $city_spot = new midgardmvc_helper_location_spot($city);
+            $city_distance = round(midgardmvc_helper_location_utils::get_distance($spot, $city_spot));
             if ($city_distance <= 4)
             {
                 $city_string = "{$city->city}, {$city->country}";
             }
             else
             {
-                $bearing = org_routamc_positioning_utils::get_bearing($city_spot, $spot);
-                $city_string = sprintf(midgardmvc_core::get_instance()->i18n->get_string('%skm %s of %s', 'org_routamc_positioning'), $city_distance, $bearing, "{$city->city}, {$city->country}");
+                $bearing = midgardmvc_helper_location_utils::get_bearing($city_spot, $spot);
+                $city_string = sprintf(midgardmvc_core::get_instance()->i18n->get_string('%skm %s of %s', 'midgardmvc_helper_location'), $city_distance, $bearing, "{$city->city}, {$city->country}");
             }
         }
         return $city_string;
@@ -185,13 +185,13 @@ class org_routamc_positioning_utils
      *
      * @return string
      */
-    static function microformat_location(org_routamc_positioning_spot $spot)
+    static function microformat_location(midgardmvc_helper_location_spot $spot)
     {
-        $closest = org_routamc_positioning_utils::get_closest('org_routamc_positioning_city', $spot, 1);
+        $closest = midgardmvc_helper_location_utils::get_closest('midgardmvc_helper_location_city', $spot, 1);
 
-        $latitude_string = org_routamc_positioning_utils::pretty_print_coordinate($spot->latitude);
+        $latitude_string = midgardmvc_helper_location_utils::pretty_print_coordinate($spot->latitude);
         $latitude_string .= ($spot->latitude > 0) ? ' N' : ' S';
-        $longitude_string = org_routamc_positioning_utils::pretty_print_coordinate($spot->longitude);
+        $longitude_string = midgardmvc_helper_location_utils::pretty_print_coordinate($spot->longitude);
         $longitude_string .= ($spot->longitude > 0) ? ' E' : ' W';
 
         if (count($closest) == 0)
@@ -214,9 +214,9 @@ class org_routamc_positioning_utils
             $city_string .= "<abbr class=\"latitude\" title=\"{$spot->latitude}\">{$latitude_string}</abbr> ";
             $city_string .= "<abbr class=\"longitude\" title=\"{$spot->longitude}\">{$longitude_string}</abbr> ";
 
-            $city_spot = new org_routamc_positioning_spot($city);
+            $city_spot = new midgardmvc_helper_location_spot($city);
 
-            $city_distance = round(org_routamc_positioning_utils::get_distance($spot, $city_spot));
+            $city_distance = round(midgardmvc_helper_location_utils::get_distance($spot, $city_spot));
 
             $city_label  = "<span class=\"locality\">{$city->city}</span>, ";
             $city_label .= "<span class=\"country-name\">{$city->country}</span>";
@@ -227,8 +227,8 @@ class org_routamc_positioning_utils
             }
             else
             {
-                $bearing = org_routamc_positioning_utils::get_bearing($city_spot, $spot);
-                $city_string .= sprintf(midgardmvc_core::get_instance()->i18n->get_string('%skm %s of %s', 'org_routamc_positioning'), $city_distance, $bearing, $city_label);
+                $bearing = midgardmvc_helper_location_utils::get_bearing($city_spot, $spot);
+                $city_string .= sprintf(midgardmvc_core::get_instance()->i18n->get_string('%skm %s of %s', 'midgardmvc_helper_location'), $city_distance, $bearing, $city_label);
             }
 
             $city_string .= "</span>";
@@ -241,7 +241,7 @@ class org_routamc_positioning_utils
      *
      * @see http://stackoverflow.com/questions/238260/how-to-calculate-the-bounding-box-for-a-given-lat-lng-location
      */
-    static function get_earth_radius_at(org_routamc_positioning_spot $spot)
+    static function get_earth_radius_at(midgardmvc_helper_location_spot $spot)
     {
         // Semi-axes of WGS-84 geoidal reference
         $WGS84_a = 6378137.0; // Major semiaxis [m]
@@ -256,14 +256,14 @@ class org_routamc_positioning_utils
         return sqrt(($An * $An + $Bn * $Bn) / ($Ad * $Ad + $Bd * $Bd));
     }
 
-    static function get_bounding_box_for_radius(org_routamc_positioning_spot $spot, $radius)
+    static function get_bounding_box_for_radius(midgardmvc_helper_location_spot $spot, $radius)
     {
         $lat = deg2rad($spot->latitude);
         $lon = deg2rad($spot->longitude);
         $halfside = 1000 * $radius;
 
         // Radius of Earth at given latitude
-        $radius = org_routamc_positioning_utils::get_earth_radius_at($spot);
+        $radius = midgardmvc_helper_location_utils::get_earth_radius_at($spot);
         // Radius of the parallel at given latitude
         $pradius = $radius * cos($lat);
 
@@ -274,8 +274,8 @@ class org_routamc_positioning_utils
 
         $bbox = array
         (
-            new org_routamc_positioning_spot($x1, $y1),
-            new org_routamc_positioning_spot($x2, $y2),
+            new midgardmvc_helper_location_spot($x1, $y1),
+            new midgardmvc_helper_location_spot($x2, $y2),
         );
         
         return $bbox;
@@ -291,15 +291,15 @@ class org_routamc_positioning_utils
         // See what kind of object we're querying for
         switch ($class)
         {
-            case 'org_routamc_positioning_log':
-            case 'org_routamc_positioning_city':
-            case 'org_routamc_positioning_aerodrome':
+            case 'midgardmvc_helper_location_log':
+            case 'midgardmvc_helper_location_city':
+            case 'midgardmvc_helper_location_aerodrome':
                 // Real position entry, query it directly
                 $classname = $class;
                 break;
             default:
                 // Non-positioning MidCOM DBA object, query it through location cache
-                $classname = 'org_routamc_positioning_location';
+                $classname = 'midgardmvc_helper_location_location';
                 break;
         }
         return $classname;
@@ -309,13 +309,13 @@ class org_routamc_positioning_utils
      * Get closest items
      *
      * @param string $class MidCOM DBA class to query
-     * @param org_routamc_positioning_spot $spot Center position
+     * @param midgardmvc_helper_location_spot $spot Center position
      * @param integer $limit How many results to return
      * @return Array Array of MidCOM DBA objects sorted by proximity
      */
-    static function get_closest($class, org_routamc_positioning_spot $spot, $limit, $modifier = 0.15)
+    static function get_closest($class, midgardmvc_helper_location_spot $spot, $limit, $modifier = 0.15)
     {
-        $classname = org_routamc_positioning_utils::get_positioning_class($class);
+        $classname = midgardmvc_helper_location_utils::get_positioning_class($class);
         if ($classname != $class)
         {
             $direct = false;
@@ -388,9 +388,9 @@ class org_routamc_positioning_utils
                 $closest = Array();
                 foreach ($results as $result)
                 {
-                    $result_spot = new org_routamc_positioning_spot($result);
+                    $result_spot = new midgardmvc_helper_location_spot($result);
 
-                    $distance = sprintf("%05d", round(org_routamc_positioning_utils::get_distance($spot, $result_spot)));
+                    $distance = sprintf("%05d", round(midgardmvc_helper_location_utils::get_distance($spot, $result_spot)));
 
                     if (!$direct)
                     {
@@ -410,15 +410,15 @@ class org_routamc_positioning_utils
 
             $modifier = $modifier * 1.05;
             setlocale(LC_NUMERIC, $current_locale);
-            return org_routamc_positioning_utils::get_closest($class, $spot, $limit, $modifier);
+            return midgardmvc_helper_location_utils::get_closest($class, $spot, $limit, $modifier);
         }
 
         $results = $qb->execute();
         $closest = array();
         foreach ($results as $result)
         {
-            $result_spot = new org_routamc_positioning_spot($result);
-            $distance = sprintf("%05d", round(org_routamc_positioning_utils::get_distance($spot, $result_spot)));
+            $result_spot = new midgardmvc_helper_location_spot($result);
+            $distance = sprintf("%05d", round(midgardmvc_helper_location_utils::get_distance($spot, $result_spot)));
 
             if (!$direct)
             {

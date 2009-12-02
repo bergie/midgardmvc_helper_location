@@ -2,7 +2,7 @@
 <Schema xmlns="http://www.midgard-project.org/repligard/1.4">
 
     <!-- Country -->
-    <type name="org_routamc_positioning_country" table="org_routamc_positioning_country">
+    <type name="midgardmvc_helper_location_country" table="midgardmvc_helper_location_country">
         <property name="id" type="unsigned integer" primaryfield="id">
             <description>Local non-replication-safe database identifier</description>
         </property>
@@ -37,7 +37,7 @@
         <property name="continent" type="string" index="yes">
             <description>The continent the country is located in</description>
         </property>
-        <property name="capital" type="unsigned integer" link="org_routamc_positioning_city:id">
+        <property name="capital" type="unsigned integer" link="midgardmvc_helper_location_city:id">
             <description>Link to the city object that is the country's capital</description>
         </property>
         <property name="bboxnorth" type="float" index="yes">
@@ -55,7 +55,7 @@
     </type>
 
     <!-- City is used for mapping log entries to "real-world places" -->
-    <type name="org_routamc_positioning_city" table="org_routamc_positioning_city">
+    <type name="midgardmvc_helper_location_city" table="midgardmvc_helper_location_city">
         <property name="id" type="unsigned integer" primaryfield="id">
             <description>Local non-replication-safe database identifier</description>
         </property>
@@ -63,7 +63,7 @@
             <description>City name</description>
         </property>
         <!-- TODO: It would be safer to link via ID or GUID here -->
-        <property name="country" type="unsigned integer" link="org_routamc_positioning_country:id" parentfield="country">
+        <property name="country" type="unsigned integer" link="midgardmvc_helper_location_country:id" parentfield="country">
             <description>Country the city is in</description>
         </property>
         <property name="region" type="string" index="yes">
@@ -88,7 +88,7 @@
     </type>
 
     <!-- Airports are primarily used for getting METAR weather for users -->
-    <type name="org_routamc_positioning_aerodrome" table="org_routamc_positioning_aerodrome" parent="org_routamc_positioning_city" parentfield="city">
+    <type name="midgardmvc_helper_location_aerodrome" table="midgardmvc_helper_location_aerodrome" parent="midgardmvc_helper_location_city" parentfield="city">
         <property name="id" type="unsigned integer" primaryfield="id">
             <description>Local non-replication-safe database identifier</description>
         </property>
@@ -104,10 +104,10 @@
         <property name="name" type="string" index="yes">
             <description>Airport name</description>
         </property>
-        <property name="city" link="org_routamc_positioning_city:id" type="unsigned integer" parentfield="city">
+        <property name="city" link="midgardmvc_helper_location_city:id" type="unsigned integer" parentfield="city">
             <description>Nearest city to the airport</description>
         </property>
-        <property name="country" link="org_routamc_positioning_country:id" type="unsigned integer">
+        <property name="country" link="midgardmvc_helper_location_country:id" type="unsigned integer">
             <description>Country the airport is in</description>
         </property>
         <property name="latitude" type="float" index="yes">
@@ -122,7 +122,7 @@
     </type>
 
     <!-- Log entries are user's position entries -->
-    <type name="org_routamc_positioning_log" table="org_routamc_positioning_log" parent="midgard_person" parentfield="person">
+    <type name="midgardmvc_helper_location_log" table="midgardmvc_helper_location_log" parent="midgard_person" parentfield="person">
         <property name="id" type="unsigned integer" primaryfield="id">
             <description>Local non-replication-safe database identifier</description>
         </property>
@@ -130,7 +130,7 @@
             <description>Person who has been positioned with this log</description>
         </property>
         <property name="importer" type="string">
-            <description>Source is the name of the position source module log entry comes from. These correspond to org_routamc_positioning_importer_X classes
+            <description>Source is the name of the position source module log entry comes from. These correspond to midgardmvc_helper_location_importer_X classes
             
             - gpx: GPS track log entry imported in GPX format
             - plazes: Plazes information
@@ -168,7 +168,7 @@
     </type>
 
     <!-- Locations are used for connecting any Midgard object into real-world positions -->
-    <type name="org_routamc_positioning_location" table="org_routamc_positioning_location">
+    <type name="midgardmvc_helper_location_location" table="midgardmvc_helper_location_location">
         <property name="id" type="unsigned integer" primaryfield="id">
             <description>Local non-replication-safe database identifier</description>
         </property>
@@ -181,7 +181,7 @@
         <property name="parentcomponent" type="string" index="yes">
             <description>Parent object's component</description>
         </property>
-        <property name="log" link="org_routamc_positioning_log:id" type="unsigned integer">
+        <property name="log" link="midgardmvc_helper_location_log:id" type="unsigned integer">
             <description>Log entry this position information is based on if type is set to `10`</description>
         </property>
         <property name="relation" type="integer" index="yes">
@@ -210,7 +210,7 @@
         <property name="building" type="string">
             <description>A specific building on a street or in an area</description>
         </property>
-        <property name="country" link="org_routamc_positioning_country:id" type="unsigned integer">
+        <property name="country" link="midgardmvc_helper_location_country:id" type="unsigned integer">
             <description>Country the entry is in</description>
         </property>
         <property name="description" type="string">
@@ -219,7 +219,7 @@
         <property name="floor" type="string">
             <description>A particular floor in a building</description>
         </property>
-        <property name="city" link="org_routamc_positioning_city:id" type="unsigned integer">
+        <property name="city" link="midgardmvc_helper_location_city:id" type="unsigned integer">
             <description>A locality within the administrative region, such as a town or city</description>
         </property>
         <property name="postalcode" type="string">

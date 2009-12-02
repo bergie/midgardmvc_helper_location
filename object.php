@@ -1,6 +1,6 @@
 <?php
 /**
- * @package org_routamc_positioning
+ * @package midgardmvc_helper_location
  * @author The Midgard Project, http://www.midgard-project.org
  * @version $Id$
  * @copyright The Midgard Project, http://www.midgard-project.org
@@ -14,7 +14,7 @@
  *
  * <code>
  * <?php
- * $object_position = new org_routamc_positioning_object($article);
+ * $object_position = new midgardmvc_helper_location_object($article);
  * $coordinates = $object_position->get_coordinates();
  * if (!is_null($coordinates))
  * {
@@ -23,9 +23,9 @@
  * ?>
  * </code>
  *
- * @package org_routamc_positioning
+ * @package midgardmvc_helper_location
  */
-class org_routamc_positioning_object
+class midgardmvc_helper_location_object
 {
     /**
      * The object we're looking for position of
@@ -42,15 +42,15 @@ class org_routamc_positioning_object
     /**
      * Get location object for the object
      *
-     * @return org_routamc_positioning_location
+     * @return midgardmvc_helper_location_location
      */
     function seek_location_object()
     {
-        $qb = org_routamc_positioning_location::new_query_builder();
+        $qb = midgardmvc_helper_location_location::new_query_builder();
         $qb->add_constraint('parent', '=', $this->object->guid);
         $qb->begin_group('OR');
-            $qb->add_constraint('relation', '=', org_routamc_positioning::RELATION_IN);
-            $qb->add_constraint('relation', '=', org_routamc_positioning::RELATION_LOCATED);
+            $qb->add_constraint('relation', '=', midgardmvc_helper_location::RELATION_IN);
+            $qb->add_constraint('relation', '=', midgardmvc_helper_location::RELATION_LOCATED);
         $qb->end_group();
         $qb->add_order('metadata.published', 'DESC');
         $matches = $qb->execute();
@@ -64,7 +64,7 @@ class org_routamc_positioning_object
     /**
      * Get log object based on creation time and creator of the object
      *
-     * @return org_routamc_positioning_log
+     * @return midgardmvc_helper_location_log
      */
     function seek_log_object($person = null, $time = null)
     {
@@ -90,7 +90,7 @@ class org_routamc_positioning_object
 
         $person = new midgard_person($person_guid);
 
-        $qb = org_routamc_positioning_log::new_query_builder();
+        $qb = midgardmvc_helper_location_log::new_query_builder();
         $qb->add_constraint('person', '=', $person->id);
         $qb->add_constraint('date', '<=', $time);
         $qb->add_order('date', 'DESC');
@@ -107,7 +107,7 @@ class org_routamc_positioning_object
     /**
      * Get coordinates of the object
      *
-     * @return org_routamc_positioning_spot
+     * @return midgardmvc_helper_location_spot
      */
     function get_coordinates($person = null, $time = null, $cache = true)
     {
@@ -115,7 +115,7 @@ class org_routamc_positioning_object
             || is_a($this->object, 'org_openpsa_person'))
         {
             // This is a person record. Seek log
-            $user_position = new org_routamc_positioning_person($this->object);
+            $user_position = new midgardmvc_helper_location_person($this->object);
             return $user_position->get_coordinates($time);
         }
 
@@ -134,7 +134,7 @@ class org_routamc_positioning_object
         if (   is_object($location)
             && $location->guid)
         {
-            $spot = new org_routamc_positioning_spot($location);
+            $spot = new midgardmvc_helper_location_spot($location);
 
             // Consistency check
             if ($location->date != $time)
@@ -164,14 +164,14 @@ class org_routamc_positioning_object
         $log = $this->seek_log_object($person, $time);
         if (is_object($log))
         {
-            $spot = new org_routamc_positioning_spot($log);
+            $spot = new midgardmvc_helper_location_spot($log);
             
             if ($cache)
             {
                 // Cache the object's location into a location object
-                $location = new org_routamc_positioning_location();
+                $location = new midgardmvc_helper_location_location();
                 $location->log = $log->id;
-                $location->relation = (int) org_routamc_positioning::RELATION_IN;
+                $location->relation = (int) midgardmvc_helper_location::RELATION_IN;
                 $location->date = $time;
                 $location->parent = $this->object->guid;
                 $location->parentclass = get_class($this->object);

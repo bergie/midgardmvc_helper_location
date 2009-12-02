@@ -1,6 +1,6 @@
 <?php
 /**
- * @package org_routamc_positioning
+ * @package midgardmvc_helper_location
  * @author The Midgard Project, http://www.midgard-project.org
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
@@ -9,14 +9,14 @@
 require_once('tests/testcase.php');
 
 /**
- * @package org_routamc_positioning
+ * @package midgardmvc_helper_location
  */
-class org_routamc_positioning_tests_spot extends midgardmvc_tests_testcase
+class midgardmvc_helper_location_tests_spot extends midgardmvc_tests_testcase
 {
     public function test_instantiate_from_coordinates()
     {
         // Midgard airport (FYMG)
-        $spot = new org_routamc_positioning_spot(-22.083332, 17.366667);
+        $spot = new midgardmvc_helper_location_spot(-22.083332, 17.366667);
         
         $this->assertEquals($spot->latitude, -22.083332);
         $this->assertEquals($spot->longitude, 17.366667);
@@ -30,12 +30,12 @@ class org_routamc_positioning_tests_spot extends midgardmvc_tests_testcase
      */
     public function test_instantiate_from_one_coordinate()
     {
-        $spot = new org_routamc_positioning_spot(-22.083332);
+        $spot = new midgardmvc_helper_location_spot(-22.083332);
     } 
 
     public function test_instantiate_from_string()
     {
-        $spot = new org_routamc_positioning_spot('low earth orbit');
+        $spot = new midgardmvc_helper_location_spot('low earth orbit');
         
         $this->assertEquals($spot->text, 'low earth orbit');
         $this->assertEquals($spot->accuracy, 80);
@@ -48,7 +48,7 @@ class org_routamc_positioning_tests_spot extends midgardmvc_tests_testcase
      */
     public function test_instantiate_from_strings()
     {
-        $spot = new org_routamc_positioning_spot("foo", "bar");
+        $spot = new midgardmvc_helper_location_spot("foo", "bar");
     }
 
     /**
@@ -58,7 +58,7 @@ class org_routamc_positioning_tests_spot extends midgardmvc_tests_testcase
      */
     public function test_instantiate_from_ints()
     {
-        $spot = new org_routamc_positioning_spot(1, 2);
+        $spot = new midgardmvc_helper_location_spot(1, 2);
     }
 
     /**
@@ -68,7 +68,7 @@ class org_routamc_positioning_tests_spot extends midgardmvc_tests_testcase
      */
     public function test_instantiate_from_implausible_latitude()
     {
-        $spot = new org_routamc_positioning_spot(95.2, 17.366667);
+        $spot = new midgardmvc_helper_location_spot(95.2, 17.366667);
     }
 
     /**
@@ -78,17 +78,17 @@ class org_routamc_positioning_tests_spot extends midgardmvc_tests_testcase
      */
     public function test_instantiate_from_implausible_longitude()
     {
-        $spot = new org_routamc_positioning_spot(-22.083332, -185.6);
+        $spot = new midgardmvc_helper_location_spot(-22.083332, -185.6);
     }
 
     public function test_instantiate_from_location()
     {
         // Midgard airport (FYMG)
-        $location = new org_routamc_positioning_location();
+        $location = new midgardmvc_helper_location_location();
         $location->latitude = -22.083332;
         $location->longitude = 17.366667;
         
-        $spot = new org_routamc_positioning_spot($location);
+        $spot = new midgardmvc_helper_location_spot($location);
         
         $this->assertEquals($spot->latitude, $location->latitude);
         $this->assertEquals($spot->longitude, $location->longitude);
@@ -103,9 +103,9 @@ class org_routamc_positioning_tests_spot extends midgardmvc_tests_testcase
     public function test_instantiate_from_invalid_class()
     {
         // Midgard airport (FYMG)
-        $original = new org_routamc_positioning_spot(-22.083332, 17.366667);
+        $original = new midgardmvc_helper_location_spot(-22.083332, 17.366667);
         
-        $spot = new org_routamc_positioning_spot($original);
+        $spot = new midgardmvc_helper_location_spot($original);
     }
 }
 ?>

@@ -1,6 +1,6 @@
 <?php
 /**
- * @package org_routamc_positioning
+ * @package midgardmvc_helper_location
  * @author The Midgard Project, http://www.midgard-project.org
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
@@ -17,15 +17,15 @@
  * <a href="http://www.geoplugin.com/" target="_new" title="geoPlugin for IP geolocation">Geolocation by geoPlugin</a>
  * </code>
  *
- * @package org_routamc_positioning
+ * @package midgardmvc_helper_location
  */
-class org_routamc_positioning_geocoder_geoplugin implements org_routamc_positioning_geocoder
+class midgardmvc_helper_location_geocoder_geoplugin implements midgardmvc_helper_location_geocoder
 {
     /**
      * Empty default implementation, this calls won't do much.
      *
      * @param array $location Parameters to geocode with, conforms to XEP-0080
-     * @return org_routamc_positioning_spot containing geocoded information
+     * @return midgardmvc_helper_location_spot containing geocoded information
      */
     public function geocode(array $location)
     {
@@ -49,7 +49,7 @@ class org_routamc_positioning_geocoder_geoplugin implements org_routamc_position
         // Remove the geoPlugin() callback
         $json = substr($json, 10, -1);
         $location = json_decode($json);
-        $spot = new org_routamc_positioning_spot((float) $location->geoplugin_latitude, (float) $location->geoplugin_longitude);
+        $spot = new midgardmvc_helper_location_spot((float) $location->geoplugin_latitude, (float) $location->geoplugin_longitude);
         $spot->accuracy = 80;
         $spot->source = 'geoplugin';
 

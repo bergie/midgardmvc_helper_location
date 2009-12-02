@@ -1,6 +1,6 @@
 routes:
     userlocation_update:
-        controller: org_routamc_positioning_controllers_userlocation
+        controller: midgardmvc_helper_location_controllers_userlocation
         action: location
         route: /mgd:userlocation
         root_only: true

@@ -1,6 +1,6 @@
 <?php
 /**
- * @package org_routamc_positioning
+ * @package midgardmvc_helper_location
  * @author The Midgard Project, http://www.midgard-project.org
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
@@ -9,9 +9,9 @@
 /**
  * Controller for getting and updating user's location
  *
- * @package org_routamc_positioning
+ * @package midgardmvc_helper_location
  */
-class org_routamc_positioning_controllers_userlocation
+class midgardmvc_helper_location_controllers_userlocation
 {
     public function __construct(midgardmvc_core_component_interface $instance)
     {
@@ -26,7 +26,7 @@ class org_routamc_positioning_controllers_userlocation
         if (   isset($_POST['latitude'])
             && isset($_POST['longitude']))
         {
-            $spot = new org_routamc_positioning_spot((float) $_POST['latitude'], (float) $_POST['longitude']);
+            $spot = new midgardmvc_helper_location_spot((float) $_POST['latitude'], (float) $_POST['longitude']);
             if (isset($_POST['text']))
             {
                 // User has provided a textual location
@@ -37,7 +37,7 @@ class org_routamc_positioning_controllers_userlocation
                 try
                 {
                     // Get textual location by reverse geocoding
-                    $geocoder = new org_routamc_positioning_geocoder_geonames();
+                    $geocoder = new midgardmvc_helper_location_geocoder_geonames();
                     $city = $geocoder->reverse_geocode($spot);
                     if ($city->text)
                     {
@@ -52,7 +52,7 @@ class org_routamc_positioning_controllers_userlocation
         }
         elseif (isset($_POST['text']))
         {
-            $spot = new org_routamc_positioning_spot($_POST['text']);
+            $spot = new midgardmvc_helper_location_spot($_POST['text']);
         }
         else
         {
@@ -86,7 +86,7 @@ class org_routamc_positioning_controllers_userlocation
         
         $spot->source = 'browser';
         
-        if (!org_routamc_positioning_user::set_location($spot))
+        if (!midgardmvc_helper_location_user::set_location($spot))
         {
             throw new midgardmvc_exception_httperror("Failed to store location");
         }
@@ -101,7 +101,7 @@ class org_routamc_positioning_controllers_userlocation
      */
     public function get_location(array $args)
     {
-        $this->data = org_routamc_positioning_user::get_location();
+        $this->data = midgardmvc_helper_location_user::get_location();
     }
 }
 ?>

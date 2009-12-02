@@ -1,6 +1,6 @@
 <?php
 /**
- * @package org_routamc_positioning
+ * @package midgardmvc_helper_location
  * @author The Midgard Project, http://www.midgard-project.org
  * @version $Id$
  * @copyright The Midgard Project, http://www.midgard-project.org
@@ -10,12 +10,12 @@
 /**
  * Spot class for handling non-persistent geographical location.
  *
- * For persistent locations use the org_routamc_positioning_location class that is connected 
+ * For persistent locations use the midgardmvc_helper_location_location class that is connected 
  * to some object.
  *
- * @package org_routamc_positioning
+ * @package midgardmvc_helper_location
  */
-class org_routamc_positioning_spot
+class midgardmvc_helper_location_spot
 {
     /**
      * WGS-84 latitude of the spot
