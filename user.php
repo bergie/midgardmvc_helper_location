@@ -10,6 +10,38 @@
 /**
  * User geolocation
  *
+ * The methods of this class can be used for storing and retrieving location of both authenticated
+ * and anonymous users. 
+ *
+ * <b>Simple usage with GeoPlugin IP address geocoding works like the following:</b>
+ *
+ * <code>
+ * <?php
+ * // Read location from session or user's location log
+ * $user_location = midgardmvc_helper_location_user::get_location();
+ * if (is_null($user_location))
+ * {
+ *     // No location found, try to geocode based on user IP
+ *     $geocoder = new new midgardmvc_helper_location_geocoder_geoplugin()
+ *     $location_parameters = array('ip' => $_SERVER['REMOTE_ADDR']);
+ *     try
+ *     {
+ *         $user_location = $geocoder->geocode($location_parameters);
+ *         midgardmvc_helper_location_user::set_location($user_location);
+ *     }
+ *     catch (Exception $e)
+ *     {
+ *         // Couldn't get location from IP
+ *     }
+ * }
+ *
+ * if (!is_null($user_location))
+ * {
+ *     echo sprintf('You\'re in %s, %s', $user_location->latitude, $user_location->longitude);
+ *     // Will print "You're in 60.2345, 25.00456"
+ * }
+ * ?>
+ * </code>
  * @package midgardmvc_helper_location
  */
 class midgardmvc_helper_location_user

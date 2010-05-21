@@ -20,7 +20,7 @@ class midgardmvc_helper_location_tests_all
 
     public static function suite()
     {
-        $suite = new PHPUnit_Framework_TestSuite("MidCOM " . __CLASS__);
+        $suite = new PHPUnit_Framework_TestSuite("Midgard MVC " . __CLASS__);
         
         $tests = midgardmvc_core_tests_helpers::get_tests(__FILE__, __CLASS__);
         foreach ($tests as $test)

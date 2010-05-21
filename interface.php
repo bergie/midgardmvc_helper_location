@@ -7,7 +7,7 @@
  */
 
 /**
- * Basic component
+ * Location context information
  *
  * @package midgardmvc_helper_location
  */
