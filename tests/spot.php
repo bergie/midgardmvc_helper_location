@@ -169,5 +169,26 @@ class midgardmvc_helper_location_tests_spot extends midgardmvc_core_tests_testca
         $bearing = $efhf->direction_to($efhf);
         $this->assertEquals($bearing, 'S');
     }
+
+    public function test_bounding_box()
+    {
+        // Helsinki-Malmi airport (EFHF)
+        $efhf = new midgardmvc_helper_location_spot(60.254558, 25.042828);
+        
+        // Get 20km bounding box
+        $bbox = $efhf->get_bounding_box(20);
+        
+        $this->assertTrue(is_array($bbox));
+        $this->assertEquals(count($bbox), 2);
+        
+        // Ensure the box limits are in right directions
+        $this->assertEquals($efhf->direction_to($bbox[0]), 'SW');
+        $this->assertEquals($efhf->direction_to($bbox[1]), 'NE');
+        
+        // Check that the distance to a corner is correct. 
+        // Note: using 2D trigonometry on 3D globe so numbers are not exact
+        $distance1 = $bbox[0]->distance_to($efhf);
+        $this->assertEquals(round($distance1), round(sqrt(pow(20, 2) + pow(20, 2))));
+    }
 }
 ?>

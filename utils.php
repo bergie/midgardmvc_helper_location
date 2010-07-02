@@ -189,42 +189,12 @@ class midgardmvc_helper_location_utils
      */
     static function get_earth_radius_at(midgardmvc_helper_location_spot $spot)
     {
-        // Semi-axes of WGS-84 geoidal reference
-        $WGS84_a = 6378137.0; // Major semiaxis [m]
-        $WGS84_b = 6356752.3; // Minor semiaxis [m]
-
-        // http://en.wikipedia.org/wiki/Earth_radius
-        $An = $WGS84_a * $WGS84_a * cos(deg2rad($spot->latitude));
-        $Bn = $WGS84_b * $WGS84_b * sin(deg2rad($spot->latitude));
-        $Ad = $WGS84_a * cos($spot->latitude);
-        $Bd = $WGS84_b * sin($spot->latitude);
-
-        return sqrt(($An * $An + $Bn * $Bn) / ($Ad * $Ad + $Bd * $Bd));
+        return $spot->earth_radius_at();
     }
 
     static function get_bounding_box_for_radius(midgardmvc_helper_location_spot $spot, $radius)
     {
-        $lat = deg2rad($spot->latitude);
-        $lon = deg2rad($spot->longitude);
-        $halfside = 1000 * $radius;
-
-        // Radius of Earth at given latitude
-        $radius = midgardmvc_helper_location_utils::get_earth_radius_at($spot);
-        // Radius of the parallel at given latitude
-        $pradius = $radius * cos($lat);
-
-        $x1 = rad2deg($lat - $halfside / $radius);
-        $x2 = rad2deg($lat + $halfside / $radius);
-        $y1 = rad2deg($lon - $halfside / $pradius);
-        $y2 = rad2deg($lon + $halfside / $pradius);
-
-        $bbox = array
-        (
-            new midgardmvc_helper_location_spot($x1, $y1),
-            new midgardmvc_helper_location_spot($x2, $y2),
-        );
-        
-        return $bbox;
+        return $spot->get_bounding_box($radius);
     }
 
     /**

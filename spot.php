@@ -160,7 +160,7 @@ class midgardmvc_helper_location_spot
         }
         else
         {
-            $dist = $this->get_distance($to, 'N');
+            $dist = $this->distance_to($to, 'N');
             $arad = acos((sin(deg2rad($to->latitude)) - sin(deg2rad($this->latitude)) * cos(deg2rad($dist / 60))) / (sin(deg2rad($dist / 60)) * cos(deg2rad($this->latitude))));
             $bearing = $arad * 180 / pi();
             if (sin(deg2rad($to->longitude - $this->longitude)) < 0)
@@ -194,6 +194,56 @@ class midgardmvc_helper_location_spot
         }
 
         return $dir;
+    }
+
+    /**
+     * Earth radius at a given latitude, according to the WGS-84 ellipsoid
+     *
+     * @see http://stackoverflow.com/questions/238260/how-to-calculate-the-bounding-box-for-a-given-lat-lng-location
+     */
+    public function earth_radius_at()
+    {
+        // Semi-axes of WGS-84 geoidal reference
+        $WGS84_a = 6378137.0; // Major semiaxis [m]
+        $WGS84_b = 6356752.3; // Minor semiaxis [m]
+
+        // http://en.wikipedia.org/wiki/Earth_radius
+        $An = $WGS84_a * $WGS84_a * cos(deg2rad($this->latitude));
+        $Bn = $WGS84_b * $WGS84_b * sin(deg2rad($this->latitude));
+        $Ad = $WGS84_a * cos($this->latitude);
+        $Bd = $WGS84_b * sin($this->latitude);
+
+        return sqrt(($An * $An + $Bn * $Bn) / ($Ad * $Ad + $Bd * $Bd));
+    }
+
+    /**
+     * Get a bounding box (southwest and northeast corners) for a given radius from the location.
+     *
+     * @param int $radius Bounding box radius in kilometers
+     */
+    public function get_bounding_box($radius)
+    {
+        $lat = deg2rad($this->latitude);
+        $lon = deg2rad($this->longitude);
+        $halfside = 1000 * $radius;
+
+        // Radius of Earth at given latitude
+        $earth_radius = $this->earth_radius_at();
+        // Radius of the parallel at given latitude
+        $pradius = $earth_radius * cos($lat);
+
+        $x1 = rad2deg($lat - $halfside / $earth_radius);
+        $x2 = rad2deg($lat + $halfside / $earth_radius);
+        $y1 = rad2deg($lon - $halfside / $pradius);
+        $y2 = rad2deg($lon + $halfside / $pradius);
+
+        $bbox = array
+        (
+            new midgardmvc_helper_location_spot($x1, $y1),
+            new midgardmvc_helper_location_spot($x2, $y2),
+        );
+        
+        return $bbox;
     }
 }
 ?>
