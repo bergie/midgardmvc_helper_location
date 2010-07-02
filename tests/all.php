@@ -6,7 +6,7 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
-require_once(dirname(__FILE__) . '/../../tests/helpers.php');
+require_once(dirname(__FILE__) . '/../../midgardmvc_core/tests/helpers.php');
 
 /**
  * @package midgardmvc_helper_location

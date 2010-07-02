@@ -6,12 +6,12 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
-require_once('tests/testcase.php');
+require_once(dirname(__FILE__) . '/../../../midgardmvc_core/tests/testcase.php');
 
 /**
  * @package midgardmvc_helper_location
  */
-class midgardmvc_helper_location_tests_geocoder_hostip extends midgardmvc_tests_testcase
+class midgardmvc_helper_location_tests_geocoder_hostip extends midgardmvc_core_tests_testcase
 {
     /**
      * Try geocoding without IP, should throw an exception
@@ -51,7 +51,7 @@ class midgardmvc_helper_location_tests_geocoder_hostip extends midgardmvc_tests_
      */
     public function test_finnish_ip()
     {
-        $geocoder = new midgardmvc_helper_location_geocoder_hostip();     
+        $geocoder = new midgardmvc_helper_location_geocoder_hostip();
         $data = array
         (
             'ip' => '83.150.122.98',
