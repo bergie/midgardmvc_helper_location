@@ -94,10 +94,7 @@ class midgardmvc_helper_location_utils
      */
     static function pretty_print_coordinates(midgardmvc_helper_location_spot $spot)
     {
-        return sprintf("%s %s, %s %s",
-                 ($spot->latitude > 0) ? 'N': 'S',  midgardmvc_helper_location_utils::pretty_print_coordinate($spot->latitude),
-                 ($spot->longitude > 0) ? 'E': 'W', midgardmvc_helper_location_utils::pretty_print_coordinate($spot->longitude)
-        );
+        return $spot->__toString();
     }
 
     /**

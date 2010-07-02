@@ -245,5 +245,21 @@ class midgardmvc_helper_location_spot
         
         return $bbox;
     }
+
+    /**
+     * Pretty-print coordinates (latitude and longitude)
+     *
+     * Code from http://en.wikipedia.org/wiki/Geographic_coordinate_conversion
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        $latitude_pretty = sprintf("%0.0f° %2.3f", floor(abs($this->latitude)), 60 * (abs($this->latitude) - floor(abs($this->latitude))));
+        $longitude_pretty = sprintf("%0.0f° %2.3f", floor(abs($this->longitude)), 60 * (abs($this->longitude) - floor(abs($this->longitude))));
+        return sprintf("%s %s, %s %s",
+            ($this->latitude > 0) ? 'N': 'S', $latitude_pretty,
+            ($this->longitude > 0) ? 'E': 'W', $longitude_pretty
+        );
+    }
 }
-?>
