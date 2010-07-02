@@ -6,12 +6,13 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
-require_once(dirname(__FILE__) . '/../../midgardmvc_core/tests/testcase.php');
+require_once('PHPUnit/Framework.php');
+require_once(dirname(__FILE__) . '/../spot.php');
 
 /**
  * @package midgardmvc_helper_location
  */
-class midgardmvc_helper_location_tests_spot extends midgardmvc_core_tests_testcase
+class midgardmvc_helper_location_tests_spot extends PHPUnit_FrameWork_TestCase
 {
     public function test_instantiate_from_coordinates()
     {
