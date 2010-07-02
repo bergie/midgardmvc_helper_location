@@ -21,26 +21,7 @@ class midgardmvc_helper_location_utils
      */
     static function get_distance(midgardmvc_helper_location_spot $from, midgardmvc_helper_location_spot $to, $unit = 'K', $round = true)
     {
-        $theta = $from->longitude - $to->longitude;
-        $dist = sin(deg2rad($from->latitude)) * sin(deg2rad($to->latitude)) + cos(deg2rad($from->latitude)) * cos(deg2rad($to->latitude)) * cos(deg2rad($theta));
-        $dist = acos($dist);
-        $dist = rad2deg($dist);
-        $dist = $dist * 60 * 1.1515;
-
-        if ($unit == "K")
-        {
-            $dist *= 1.609344;
-        }
-        else if ($unit == "N")
-        {
-            $dist *= 0.8684;
-        }
-
-        if ($round)
-        {
-            $dist = round($dist, 1);
-        }
-        return $dist;
+        return $from->distance_to($to, $unit, $round);
     }
 
    /**
@@ -50,42 +31,7 @@ class midgardmvc_helper_location_utils
      */
     static function get_bearing(midgardmvc_helper_location_spot $from, midgardmvc_helper_location_spot $to)
     {
-        if (round($from->longitude, 1) == round($to->longitude, 1))
-        {
-            if ($from->latitude < $to->latitude)
-            {
-                $bearing = 0;
-            }
-            else
-            {
-                $bearing = 180;
-            }
-        }
-        else
-        {
-            $dist = midgardmvc_helper_location_utils::get_distance($from, $to, 'N');
-            $arad = acos((sin(deg2rad($to->latitude)) - sin(deg2rad($from->latitude)) * cos(deg2rad($dist / 60))) / (sin(deg2rad($dist / 60)) * cos(deg2rad($from->latitude))));
-            $bearing = $arad * 180 / pi();
-            if (sin(deg2rad($to->longitude - $from->longitude)) < 0)
-            {
-                $bearing = 360 - $bearing;
-            }
-        }
-
-        $dirs = array('N', 'E', 'S', 'W');
-
-        $rounded = round($bearing / 22.5) % 16;
-        if (($rounded % 4) == 0)
-        {
-            $dir = $dirs[$rounded / 4];
-        }
-        else
-        {
-            $dir = $dirs[2 * floor(((floor($rounded / 4) + 1) % 4) / 2)];
-            $dir .= $dirs[1 + 2 * floor($rounded / 8)];
-        }
-
-        return $dir;
+        return $from->direction_to($to);
     }
 
     /**

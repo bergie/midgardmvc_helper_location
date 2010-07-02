@@ -83,6 +83,10 @@ class midgardmvc_helper_location_tests_spot extends midgardmvc_core_tests_testca
 
     public function test_instantiate_from_location()
     {
+        if (!class_exists('midgardmvc_helper_location_location'))
+        {
+            $this->markTestSkipped('Midgard location schema is not available');
+        }
         // Midgard airport (FYMG)
         $location = new midgardmvc_helper_location_location();
         $location->latitude = -22.083332;
@@ -106,6 +110,64 @@ class midgardmvc_helper_location_tests_spot extends midgardmvc_core_tests_testca
         $original = new midgardmvc_helper_location_spot(-22.083332, 17.366667);
         
         $spot = new midgardmvc_helper_location_spot($original);
+    }
+
+    public function test_distance()
+    {
+        // Helsinki-Malmi airport (EFHF)
+        $efhf = new midgardmvc_helper_location_spot(60.254558, 25.042828);
+ 
+        // Helsinki-Vantaa airport (EFHK)
+        $efhk = new midgardmvc_helper_location_spot(60.317222, 24.963333);
+
+        // Midgard airport (FYMG)
+        $fymg = new midgardmvc_helper_location_spot(-22.083332, 17.366667);
+       
+        // There are 8.2 kilometers between the airports
+        $distance = $efhf->distance_to($efhk);
+        $this->assertEquals($distance, 8.2);
+        
+        // 8.2 kilometers is approximately 4.4 nautical miles
+        $distance_nautical =  $efhf->distance_to($efhk, 'N');
+        $this->assertEquals($distance_nautical, 4.4);
+
+        // There are 9181.6 kilometers from Helsinki to Midgard
+        $distance_large = $efhf->distance_to($fymg);
+        $this->assertEquals($distance_large, 9181.6);
+    }
+
+    public function test_bearing()
+    {
+        // Helsinki-Malmi airport (EFHF)
+        $efhf = new midgardmvc_helper_location_spot(60.254558, 25.042828);
+ 
+        // Helsinki-Vantaa airport (EFHK)
+        $efhk = new midgardmvc_helper_location_spot(60.317222, 24.963333);
+        
+        // Helsinki-Vantaa is in north of Helsinki-Malmi
+        $bearing = $efhf->bearing_to($efhk);
+        $this->assertEquals($bearing, 0);
+
+        // Helsinki-Malmi is in south of Helsinki-Vantaa
+        $bearing = $efhf->bearing_to($efhf);
+        $this->assertEquals($bearing, 180);
+    }
+
+    public function test_direction()
+    {
+        // Helsinki-Malmi airport (EFHF)
+        $efhf = new midgardmvc_helper_location_spot(60.254558, 25.042828);
+ 
+        // Helsinki-Vantaa airport (EFHK)
+        $efhk = new midgardmvc_helper_location_spot(60.317222, 24.963333);
+        
+        // Helsinki-Vantaa is in north of Helsinki-Malmi
+        $bearing = $efhf->direction_to($efhk);
+        $this->assertEquals($bearing, 'N');
+
+        // Helsinki-Malmi is in south of Helsinki-Vantaa
+        $bearing = $efhf->direction_to($efhf);
+        $this->assertEquals($bearing, 'S');
     }
 }
 ?>

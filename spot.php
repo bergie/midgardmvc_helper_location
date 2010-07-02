@@ -110,5 +110,90 @@ class midgardmvc_helper_location_spot
             throw new InvalidArgumentException("WGS-84 longitude must be between 180 and -180 degrees");
         }
     }
+
+    /**
+     * Get distance to another position in kilometers or nautical miles
+     *
+     * Code from http://www.corecoding.com/getfile.php?file=25
+     */
+    public function distance_to(midgardmvc_helper_location_spot $to, $unit = 'K', $round = true)
+    {
+        $theta = $this->longitude - $to->longitude;
+        $dist = sin(deg2rad($this->latitude)) * sin(deg2rad($to->latitude)) + cos(deg2rad($this->latitude)) * cos(deg2rad($to->latitude)) * cos(deg2rad($theta));
+        $dist = acos($dist);
+        $dist = rad2deg($dist);
+        $dist = $dist * 60 * 1.1515;
+
+        if ($unit == 'K')
+        {
+            $dist *= 1.609344;
+        }
+        else if ($unit == 'N')
+        {
+            $dist *= 0.8684;
+        }
+
+        if ($round)
+        {
+            $dist = round($dist, 1);
+        }
+        return $dist;
+    }
+
+    /**
+     * Get bearing to another position
+     *
+     * Code from http://www.corecoding.com/getfile.php?file=25
+     */
+    public function bearing_to(midgardmvc_helper_location_spot $to)
+    {
+        if (round($this->longitude, 1) == round($to->longitude, 1))
+        {
+            if ($this->latitude < $to->latitude)
+            {
+                $bearing = 0;
+            }
+            else
+            {
+                $bearing = 180;
+            }
+        }
+        else
+        {
+            $dist = $this->get_distance($to, 'N');
+            $arad = acos((sin(deg2rad($to->latitude)) - sin(deg2rad($this->latitude)) * cos(deg2rad($dist / 60))) / (sin(deg2rad($dist / 60)) * cos(deg2rad($this->latitude))));
+            $bearing = $arad * 180 / pi();
+            if (sin(deg2rad($to->longitude - $this->longitude)) < 0)
+            {
+                $bearing = 360 - $bearing;
+            }
+        }
+
+        return round($bearing);
+    }
+
+    /**
+     * Get direction (North, East, South, West) to another location.
+     *
+     */
+    public function direction_to(midgardmvc_helper_location_spot $to)
+    {
+        $bearing = $this->bearing_to($to);
+
+        $dirs = array('N', 'E', 'S', 'W');
+
+        $rounded = round($bearing / 22.5) % 16;
+        if (($rounded % 4) == 0)
+        {
+            $dir = $dirs[$rounded / 4];
+        }
+        else
+        {
+            $dir = $dirs[2 * floor(((floor($rounded / 4) + 1) % 4) / 2)];
+            $dir .= $dirs[1 + 2 * floor($rounded / 8)];
+        }
+
+        return $dir;
+    }
 }
 ?>
