@@ -9,7 +9,7 @@
 /**
  * @package midgardmvc_helper_location
  */
-class midgardmvc_helper_location_tests_geocoder_hostip extends midgardmvc_core_tests_testcase
+class midgardmvc_helper_location_tests_geocoder_hostip extends PHPUnit_FrameWork_TestCase
 {
     /**
      * Try geocoding without IP, should throw an exception

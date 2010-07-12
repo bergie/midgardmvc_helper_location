@@ -9,7 +9,7 @@
 /**
  * @package midgardmvc_helper_location
  */
-class midgardmvc_helper_location_tests_geocoder_geonames extends midgardmvc_core_tests_testcase
+class midgardmvc_helper_location_tests_geocoder_geonames extends PHPUnit_FrameWork_TestCase
 {
     /**
      * Try geocoding Helsinki, check city and country
