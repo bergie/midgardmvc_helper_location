@@ -5,13 +5,10 @@
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
-
-require_once(dirname(__FILE__) . '/../../midgardmvc_core/tests/testcase.php');
-
 /**
  * @package midgardmvc_helper_location
  */
-class midgardmvc_helper_location_tests_utils extends midgardmvc_core_tests_testcase
+class midgardmvc_helper_location_tests_utils extends PHPUnit_FrameWork_TestCase
 {
     public function test_distance()
     {
@@ -47,20 +44,20 @@ class midgardmvc_helper_location_tests_utils extends midgardmvc_core_tests_testc
         
         // Helsinki-Vantaa is in north of Helsinki-Malmi
         $bearing = midgardmvc_helper_location_utils::get_bearing($efhf, $efhk);
-        $this->assertEquals($bearing, 'N');
+        $this->assertEquals('NW', $bearing);
 
         // Helsinki-Malmi is in south of Helsinki-Vantaa
         $bearing = midgardmvc_helper_location_utils::get_bearing($efhk, $efhf);
-        $this->assertEquals($bearing, 'S');
+        $this->assertEquals('SE', $bearing);
     }
 
     public function test_coordinate_to_decimal()
     {
         // Helsinki-Malmi airport (EFHF)
         $latitude = midgardmvc_helper_location_utils::coordinate_to_decimal(60, 15, 16);
-        $this->assertEquals(round($latitude, 2), round(60.254558, 2));
+        $this->assertEquals(round(60.254558, 2), round($latitude, 2));
         $longitude = midgardmvc_helper_location_utils::coordinate_to_decimal(25, 2, 34);
-        $this->assertEquals(round($longitude, 2), round(25.042828, 2));
+        $this->assertEquals(round(25.042828, 2), round($longitude, 2));
     }
     
     public function test_decimal_to_coordinate()

@@ -6,8 +6,6 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
-require_once(dirname(__FILE__) . '/../../../midgardmvc_core/tests/testcase.php');
-
 /**
  * @package midgardmvc_helper_location
  */
@@ -85,17 +83,17 @@ class midgardmvc_helper_location_tests_geocoder_tiny extends midgardmvc_core_tes
         $this->assertTrue(is_a($spot, 'midgardmvc_helper_location_spot'));
 
         // Check that the type is near Helsinki
-        $this->assertEquals((int) round($spot->latitude), 60);
-        $this->assertEquals((int) round($spot->longitude), 25);
+        $this->assertEquals(60, (int) round($spot->latitude));
+        $this->assertEquals(25, (int) round($spot->longitude));
         
         // Check that we got a textual location
-        $this->assertEquals($spot->text, 'Museigatan 40-46, 00100 Helsinki, Finland');
+        $this->assertEquals('Museigatan 40-46, 00100 Helsinki, Finland', $spot->text);
 
         // Check that accuracy is correctly set to "city"
-        $this->assertEquals($spot->accuracy, 30);
+        $this->assertEquals(30, $spot->accuracy);
         
         // Check that source is correct
-        $this->assertEquals($spot->source, 'tinygeocoder');
+        $this->assertEquals('tinygeocoder', $spot->source);
     }
 }
 ?>

@@ -6,9 +6,6 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
-require_once('PHPUnit/Framework.php');
-require_once(dirname(__FILE__) . '/../spot.php');
-
 /**
  * @package midgardmvc_helper_location
  */
