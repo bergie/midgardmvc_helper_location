@@ -147,26 +147,16 @@ class midgardmvc_helper_location_spot
      */
     public function bearing_to(midgardmvc_helper_location_spot $to)
     {
-        if (round($this->longitude, 1) == round($to->longitude, 1))
+        $dist = $this->distance_to($to, 'N');
+        if ($dist == 0)
         {
-            if ($this->latitude < $to->latitude)
-            {
-                $bearing = 0;
-            }
-            else
-            {
-                $bearing = 180;
-            }
+            return null;
         }
-        else
+        $arad = acos((sin(deg2rad($to->latitude)) - sin(deg2rad($this->latitude)) * cos(deg2rad($dist / 60))) / (sin(deg2rad($dist / 60)) * cos(deg2rad($this->latitude))));
+        $bearing = $arad * 180 / pi();
+        if (sin(deg2rad($to->longitude - $this->longitude)) < 0)
         {
-            $dist = $this->distance_to($to, 'N');
-            $arad = acos((sin(deg2rad($to->latitude)) - sin(deg2rad($this->latitude)) * cos(deg2rad($dist / 60))) / (sin(deg2rad($dist / 60)) * cos(deg2rad($this->latitude))));
-            $bearing = $arad * 180 / pi();
-            if (sin(deg2rad($to->longitude - $this->longitude)) < 0)
-            {
-                $bearing = 360 - $bearing;
-            }
+            $bearing = 360 - $bearing;
         }
 
         return round($bearing);

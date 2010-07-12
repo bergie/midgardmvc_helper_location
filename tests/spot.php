@@ -135,6 +135,8 @@ class midgardmvc_helper_location_tests_spot extends PHPUnit_FrameWork_TestCase
         // There are 9181.6 kilometers from Helsinki to Midgard
         $distance_large = $efhf->distance_to($fymg);
         $this->assertEquals($distance_large, 9181.6);
+        $distance_large = $efhf->distance_to($fymg, 'N');
+        $this->assertEquals($distance_large, 4954.4);
     }
 
     public function test_bearing()
@@ -147,11 +149,20 @@ class midgardmvc_helper_location_tests_spot extends PHPUnit_FrameWork_TestCase
         
         // Helsinki-Vantaa is in north of Helsinki-Malmi
         $bearing = $efhf->bearing_to($efhk);
-        $this->assertEquals($bearing, 0);
+        $this->assertEquals($bearing, 329);
 
         // Helsinki-Malmi is in south of Helsinki-Vantaa
+        $bearing = $efhk->bearing_to($efhf);
+        $this->assertEquals($bearing, 149);
+
+        // Test bearing within same location
         $bearing = $efhf->bearing_to($efhf);
-        $this->assertEquals($bearing, 180);
+        $this->assertEquals($bearing, null);
+
+        // Midgard airport (FYMG)
+        $fymg = new midgardmvc_helper_location_spot(-22.083332, 17.366667);
+        $bearing = $efhf->bearing_to($fymg);
+        $this->assertEquals($bearing, 187);
     }
 
     public function test_direction()
@@ -162,12 +173,17 @@ class midgardmvc_helper_location_tests_spot extends PHPUnit_FrameWork_TestCase
         // Helsinki-Vantaa airport (EFHK)
         $efhk = new midgardmvc_helper_location_spot(60.317222, 24.963333);
         
-        // Helsinki-Vantaa is in north of Helsinki-Malmi
+        // Helsinki-Vantaa is in northwest of Helsinki-Malmi
         $bearing = $efhf->direction_to($efhk);
-        $this->assertEquals($bearing, 'N');
+        $this->assertEquals($bearing, 'NW');
 
-        // Helsinki-Malmi is in south of Helsinki-Vantaa
-        $bearing = $efhf->direction_to($efhf);
+        // Helsinki-Malmi is in southeast of Helsinki-Vantaa
+        $bearing = $efhk->direction_to($efhf);
+        $this->assertEquals($bearing, 'SE');
+
+        // Midgard airport (FYMG)
+        $fymg = new midgardmvc_helper_location_spot(-22.083332, 17.366667);
+        $bearing = $efhf->direction_to($fymg);
         $this->assertEquals($bearing, 'S');
     }
 
