@@ -209,10 +209,13 @@ class midgardmvc_helper_location_tests_spot extends PHPUnit_FrameWork_TestCase
     {
         // Helsinki-Malmi airport (EFHF)
         $efhf = new midgardmvc_helper_location_spot(60.254558, 25.042828);
-
         $coordinates = $efhf->__toString();
+        $this->assertEquals('60°15′16″N 25°2′34″E', $coordinates);
 
-        $this->assertEquals($coordinates, 'N 60° 15.273, E 25° 2.570');
+        // Midgard airport (FYMG)
+        $fymg = new midgardmvc_helper_location_spot(-22.083332, 17.366667);
+        $coordinates = $fymg->__toString();
+        $this->assertEquals('22°4′59″S 17°22′0″E', $coordinates);
     }
 }
 ?>
