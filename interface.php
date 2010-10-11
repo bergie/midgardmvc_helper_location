@@ -11,7 +11,7 @@
  *
  * @package midgardmvc_helper_location
  */
-class midgardmvc_helper_location extends midgardmvc_core_component_baseclass
+class midgardmvc_helper_location
 {
     const RELATION_IN = 10;
     const RELATION_ABOUT = 20;
