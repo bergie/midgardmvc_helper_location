@@ -1,0 +1,14 @@
+language: php
+
+php:
+  - 5.3
+
+env:
+  - MIDGARD=midgard
+  - MIDGARD=nomidgard
+
+before_script:
+  - ./tests/travis.sh
+
+script: phpunit --bootstrap ../midgardmvc_core/framework.php tests/all
+
