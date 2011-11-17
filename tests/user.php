@@ -13,6 +13,7 @@ class midgardmvc_helper_location_tests_user extends midgardmvc_core_tests_testca
 {
     public function test_set_anonymous()
     {
+        $this->markTestSkipped();
         $_SESSION = array();
         // Midgard airport (FYMG)
         $fymg = new midgardmvc_helper_location_spot(-22.083332, 17.366667);
