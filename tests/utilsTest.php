@@ -8,7 +8,7 @@
 /**
  * @package midgardmvc_helper_location
  */
-class midgardmvc_helper_location_tests_utils extends PHPUnit_FrameWork_TestCase
+class midgardmvc_helper_location_tests_utilsTest extends PHPUnit_FrameWork_TestCase
 {
     public function test_distance()
     {

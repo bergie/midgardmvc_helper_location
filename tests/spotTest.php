@@ -9,7 +9,7 @@
 /**
  * @package midgardmvc_helper_location
  */
-class midgardmvc_helper_location_tests_spot extends PHPUnit_FrameWork_TestCase
+class midgardmvc_helper_location_tests_spotTest extends PHPUnit_FrameWork_TestCase
 {
     public function test_instantiate_from_coordinates()
     {

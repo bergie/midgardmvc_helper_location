@@ -9,7 +9,7 @@
 /**
  * @package midgardmvc_helper_location
  */
-class midgardmvc_helper_location_tests_user extends midgardmvc_core_tests_testcase
+class midgardmvc_helper_location_tests_userTest extends midgardmvc_core_tests_testcase
 {
     public function test_set_anonymous()
     {

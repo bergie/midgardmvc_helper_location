@@ -9,7 +9,7 @@
 /**
  * @package midgardmvc_helper_location
  */
-class midgardmvc_helper_location_tests_geocoder_hostip extends PHPUnit_FrameWork_TestCase
+class midgardmvc_helper_location_tests_geocoder_geopluginTest extends PHPUnit_FrameWork_TestCase
 {
     /**
      * Try geocoding without IP, should throw an exception
@@ -18,7 +18,7 @@ class midgardmvc_helper_location_tests_geocoder_hostip extends PHPUnit_FrameWork
      */
     public function test_no_ip()
     {
-        $geocoder = new midgardmvc_helper_location_geocoder_hostip();
+        $geocoder = new midgardmvc_helper_location_geocoder_geoplugin();
         
         $data = array
         (
@@ -36,7 +36,7 @@ class midgardmvc_helper_location_tests_geocoder_hostip extends PHPUnit_FrameWork
      */
     public function test_invalid_ip()
     {
-        $geocoder = new midgardmvc_helper_location_geocoder_hostip();    
+        $geocoder = new midgardmvc_helper_location_geocoder_geoplugin();    
         $data = array
         (
             'ip' => '666.666.666.666',
@@ -49,32 +49,31 @@ class midgardmvc_helper_location_tests_geocoder_hostip extends PHPUnit_FrameWork
      */
     public function test_finnish_ip()
     {
-        $geocoder = new midgardmvc_helper_location_geocoder_hostip();
+        $geocoder = new midgardmvc_helper_location_geocoder_geoplugin();     
         $data = array
         (
-            'ip' => '83.150.122.98',
+            'ip' => '84.20.132.117',
         );
         $spot = $geocoder->geocode($data);
         
         // Check that we got the correct type
         $this->assertTrue(is_a($spot, 'midgardmvc_helper_location_spot'));
-        
-        // Check that the type is near Helsinki
-        $this->assertEquals((int) $spot->latitude, 60);
-        $this->assertEquals((int) $spot->longitude, 25);
+        // Check that the type is near Finland
+        $this->assertEquals(60, (int) round($spot->latitude));
+        $this->assertEquals(25, (int) round($spot->longitude));
         
         // Check that we got city and country
-        $this->assertEquals($spot->country, 'FI');
-        $this->assertEquals($spot->city, 'Helsinki');
-
+        $this->assertEquals('FI', $spot->country);
+        $this->assertEquals('Helsinki', $spot->city);
+        
         // Check that we got a textual location
-        $this->assertEquals($spot->text, 'Helsinki, Finland');
-
+        $this->assertEquals('Helsinki, Finland', $spot->text);
+        
         // Check that accuracy is correctly set to "city"
-        $this->assertEquals($spot->accuracy, 30);
-
+        $this->assertEquals(30, $spot->accuracy);
+        
         // Check that source is correct
-        $this->assertEquals($spot->source, 'hostip');
+        $this->assertEquals('geoplugin', $spot->source);
     }
 }
 ?>
