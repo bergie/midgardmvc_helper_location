@@ -11,11 +11,12 @@
             "homepage": "http://bergie.iki.fi/"
         }
     ],
+    "minimum-stability": "dev",
     "require": {
         "php": ">=5.2.0"
     },
     "require-dev": {
-        "midgard/midgardmvc-core": "*"
+        "midgard/midgardmvc-core": "dev-master"
     },
     "suggest": {
         "midgard/midgardmvc-core": "*",

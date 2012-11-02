@@ -8,4 +8,4 @@ before_script:
   - wget http://getcomposer.org/composer.phar
   - php composer.phar install --dev
 
-script: phpunit --bootstrap vendor/midgard/midgardmvc-core/framework.php
+script: phpunit --coverage-text
