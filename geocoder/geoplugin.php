@@ -46,8 +46,6 @@ class midgardmvc_helper_location_geocoder_geoplugin implements midgardmvc_helper
             throw new RuntimeException("GeoPlugin did not return data");
         }
         
-        // Remove the geoPlugin() callback
-        $json = substr($json, 10, -1);
         $location = json_decode($json);
         $spot = new midgardmvc_helper_location_spot((float) $location->geoplugin_latitude, (float) $location->geoplugin_longitude);
         $spot->accuracy = 80;
